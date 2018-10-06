@@ -8,12 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		F04D51D02168A9E4008D2FC8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51CF2168A9E4008D2FC8 /* AppDelegate.m */; };
-		F04D51D32168A9E4008D2FC8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51D22168A9E4008D2FC8 /* ViewController.m */; };
-		F04D51D62168A9E4008D2FC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F04D51D42168A9E4008D2FC8 /* Main.storyboard */; };
 		F04D51D82168A9E6008D2FC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F04D51D72168A9E6008D2FC8 /* Assets.xcassets */; };
 		F04D51DB2168A9E6008D2FC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F04D51D92168A9E6008D2FC8 /* LaunchScreen.storyboard */; };
 		F04D51DE2168A9E6008D2FC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51DD2168A9E6008D2FC8 /* main.m */; };
 		F04D51E82168A9E6008D2FC8 /* RankedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51E72168A9E6008D2FC8 /* RankedTests.m */; };
+		F04D51F92168AA90008D2FC8 /* AppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51F72168AA90008D2FC8 /* AppsController.m */; };
+		F04D51FA2168AA90008D2FC8 /* AppsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F04D51F82168AA90008D2FC8 /* AppsController.xib */; };
+		F04D51FF2168AC19008D2FC8 /* AppCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51FD2168AC19008D2FC8 /* AppCell.m */; };
+		F04D52002168AC19008D2FC8 /* AppCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F04D51FE2168AC19008D2FC8 /* AppCell.xib */; };
+		F04D52032168AD33008D2FC8 /* AppsController+Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D52022168AD33008D2FC8 /* AppsController+Actions.m */; };
+		F04D52062168ADC3008D2FC8 /* SearchAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D52052168ADC3008D2FC8 /* SearchAppController.m */; };
+		F04D520A2168B112008D2FC8 /* TunesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D52092168B112008D2FC8 /* TunesManager.m */; };
+		F04D520E2168B616008D2FC8 /* AppSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D520C2168B616008D2FC8 /* AppSearchCell.m */; };
+		F04D520F2168B616008D2FC8 /* AppSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F04D520D2168B616008D2FC8 /* AppSearchCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,9 +37,6 @@
 		F04D51CB2168A9E4008D2FC8 /* Ranked.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ranked.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F04D51CE2168A9E4008D2FC8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F04D51CF2168A9E4008D2FC8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F04D51D12168A9E4008D2FC8 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		F04D51D22168A9E4008D2FC8 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		F04D51D52168A9E4008D2FC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F04D51D72168A9E6008D2FC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F04D51DA2168A9E6008D2FC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F04D51DC2168A9E6008D2FC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -40,6 +44,21 @@
 		F04D51E32168A9E6008D2FC8 /* RankedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RankedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F04D51E72168A9E6008D2FC8 /* RankedTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RankedTests.m; sourceTree = "<group>"; };
 		F04D51E92168A9E6008D2FC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F04D51F62168AA90008D2FC8 /* AppsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppsController.h; sourceTree = "<group>"; };
+		F04D51F72168AA90008D2FC8 /* AppsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppsController.m; sourceTree = "<group>"; };
+		F04D51F82168AA90008D2FC8 /* AppsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppsController.xib; sourceTree = "<group>"; };
+		F04D51FC2168AC19008D2FC8 /* AppCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCell.h; sourceTree = "<group>"; };
+		F04D51FD2168AC19008D2FC8 /* AppCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppCell.m; sourceTree = "<group>"; };
+		F04D51FE2168AC19008D2FC8 /* AppCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppCell.xib; sourceTree = "<group>"; };
+		F04D52012168AD33008D2FC8 /* AppsController+Actions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppsController+Actions.h"; sourceTree = "<group>"; };
+		F04D52022168AD33008D2FC8 /* AppsController+Actions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AppsController+Actions.m"; sourceTree = "<group>"; };
+		F04D52042168ADC3008D2FC8 /* SearchAppController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchAppController.h; sourceTree = "<group>"; };
+		F04D52052168ADC3008D2FC8 /* SearchAppController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchAppController.m; sourceTree = "<group>"; };
+		F04D52082168B112008D2FC8 /* TunesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TunesManager.h; sourceTree = "<group>"; };
+		F04D52092168B112008D2FC8 /* TunesManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TunesManager.m; sourceTree = "<group>"; };
+		F04D520B2168B616008D2FC8 /* AppSearchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppSearchCell.h; sourceTree = "<group>"; };
+		F04D520C2168B616008D2FC8 /* AppSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppSearchCell.m; sourceTree = "<group>"; };
+		F04D520D2168B616008D2FC8 /* AppSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppSearchCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,15 +100,11 @@
 		F04D51CD2168A9E4008D2FC8 /* Ranked */ = {
 			isa = PBXGroup;
 			children = (
-				F04D51CE2168A9E4008D2FC8 /* AppDelegate.h */,
-				F04D51CF2168A9E4008D2FC8 /* AppDelegate.m */,
-				F04D51D12168A9E4008D2FC8 /* ViewController.h */,
-				F04D51D22168A9E4008D2FC8 /* ViewController.m */,
-				F04D51D42168A9E4008D2FC8 /* Main.storyboard */,
-				F04D51D72168A9E6008D2FC8 /* Assets.xcassets */,
-				F04D51D92168A9E6008D2FC8 /* LaunchScreen.storyboard */,
-				F04D51DC2168A9E6008D2FC8 /* Info.plist */,
-				F04D51DD2168A9E6008D2FC8 /* main.m */,
+				F04D51F22168AA23008D2FC8 /* App Delegate */,
+				F04D51F32168AA2F008D2FC8 /* Controllers */,
+				F04D51FB2168AC03008D2FC8 /* Views */,
+				F04D52072168B100008D2FC8 /* Networking */,
+				F04D51F42168AA40008D2FC8 /* Supporting Files */,
 			);
 			path = Ranked;
 			sourceTree = "<group>";
@@ -101,6 +116,70 @@
 				F04D51E92168A9E6008D2FC8 /* Info.plist */,
 			);
 			path = RankedTests;
+			sourceTree = "<group>";
+		};
+		F04D51F22168AA23008D2FC8 /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				F04D51CE2168A9E4008D2FC8 /* AppDelegate.h */,
+				F04D51CF2168A9E4008D2FC8 /* AppDelegate.m */,
+			);
+			path = "App Delegate";
+			sourceTree = "<group>";
+		};
+		F04D51F32168AA2F008D2FC8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F04D51F52168AA80008D2FC8 /* Apps */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F04D51F42168AA40008D2FC8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F04D51D72168A9E6008D2FC8 /* Assets.xcassets */,
+				F04D51D92168A9E6008D2FC8 /* LaunchScreen.storyboard */,
+				F04D51DC2168A9E6008D2FC8 /* Info.plist */,
+				F04D51DD2168A9E6008D2FC8 /* main.m */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F04D51F52168AA80008D2FC8 /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				F04D51F62168AA90008D2FC8 /* AppsController.h */,
+				F04D51F72168AA90008D2FC8 /* AppsController.m */,
+				F04D51F82168AA90008D2FC8 /* AppsController.xib */,
+				F04D52012168AD33008D2FC8 /* AppsController+Actions.h */,
+				F04D52022168AD33008D2FC8 /* AppsController+Actions.m */,
+				F04D52042168ADC3008D2FC8 /* SearchAppController.h */,
+				F04D52052168ADC3008D2FC8 /* SearchAppController.m */,
+			);
+			path = Apps;
+			sourceTree = "<group>";
+		};
+		F04D51FB2168AC03008D2FC8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F04D51FC2168AC19008D2FC8 /* AppCell.h */,
+				F04D51FD2168AC19008D2FC8 /* AppCell.m */,
+				F04D51FE2168AC19008D2FC8 /* AppCell.xib */,
+				F04D520B2168B616008D2FC8 /* AppSearchCell.h */,
+				F04D520C2168B616008D2FC8 /* AppSearchCell.m */,
+				F04D520D2168B616008D2FC8 /* AppSearchCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F04D52072168B100008D2FC8 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				F04D52082168B112008D2FC8 /* TunesManager.h */,
+				F04D52092168B112008D2FC8 /* TunesManager.m */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,8 +263,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F04D51DB2168A9E6008D2FC8 /* LaunchScreen.storyboard in Resources */,
+				F04D52002168AC19008D2FC8 /* AppCell.xib in Resources */,
+				F04D51FA2168AA90008D2FC8 /* AppsController.xib in Resources */,
 				F04D51D82168A9E6008D2FC8 /* Assets.xcassets in Resources */,
-				F04D51D62168A9E4008D2FC8 /* Main.storyboard in Resources */,
+				F04D520F2168B616008D2FC8 /* AppSearchCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,9 +284,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F04D51D32168A9E4008D2FC8 /* ViewController.m in Sources */,
 				F04D51DE2168A9E6008D2FC8 /* main.m in Sources */,
+				F04D520E2168B616008D2FC8 /* AppSearchCell.m in Sources */,
+				F04D52032168AD33008D2FC8 /* AppsController+Actions.m in Sources */,
+				F04D51FF2168AC19008D2FC8 /* AppCell.m in Sources */,
+				F04D520A2168B112008D2FC8 /* TunesManager.m in Sources */,
 				F04D51D02168A9E4008D2FC8 /* AppDelegate.m in Sources */,
+				F04D51F92168AA90008D2FC8 /* AppsController.m in Sources */,
+				F04D52062168ADC3008D2FC8 /* SearchAppController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,14 +314,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		F04D51D42168A9E4008D2FC8 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F04D51D52168A9E4008D2FC8 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		F04D51D92168A9E6008D2FC8 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -365,7 +443,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XMJKJH96ZT;
-				INFOPLIST_FILE = Ranked/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Ranked/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -382,7 +460,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XMJKJH96ZT;
-				INFOPLIST_FILE = Ranked/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Ranked/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
