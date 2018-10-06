@@ -21,6 +21,8 @@
 		F04D520A2168B112008D2FC8 /* TunesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D52092168B112008D2FC8 /* TunesManager.m */; };
 		F04D520E2168B616008D2FC8 /* AppSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D520C2168B616008D2FC8 /* AppSearchCell.m */; };
 		F04D520F2168B616008D2FC8 /* AppSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F04D520D2168B616008D2FC8 /* AppSearchCell.xib */; };
+		F0B17A6621692D9300F3E88C /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B17A6521692D9300F3E88C /* AppManager.m */; };
+		F0B17A6A21692E1300F3E88C /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B17A6921692E1300F3E88C /* App.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,11 @@
 		F04D520B2168B616008D2FC8 /* AppSearchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppSearchCell.h; sourceTree = "<group>"; };
 		F04D520C2168B616008D2FC8 /* AppSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppSearchCell.m; sourceTree = "<group>"; };
 		F04D520D2168B616008D2FC8 /* AppSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppSearchCell.xib; sourceTree = "<group>"; };
+		F0B17A6421692D9300F3E88C /* AppManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
+		F0B17A6521692D9300F3E88C /* AppManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppManager.m; sourceTree = "<group>"; };
+		F0B17A6821692E1300F3E88C /* App.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
+		F0B17A6921692E1300F3E88C /* App.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = App.m; sourceTree = "<group>"; };
+		F0B17A6B21692F6600F3E88C /* macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,8 +109,9 @@
 			children = (
 				F04D51F22168AA23008D2FC8 /* App Delegate */,
 				F04D51F32168AA2F008D2FC8 /* Controllers */,
+				F0B17A6721692E0600F3E88C /* Models */,
 				F04D51FB2168AC03008D2FC8 /* Views */,
-				F04D52072168B100008D2FC8 /* Networking */,
+				F04D52072168B100008D2FC8 /* Managers */,
 				F04D51F42168AA40008D2FC8 /* Supporting Files */,
 			);
 			path = Ranked;
@@ -142,6 +150,7 @@
 				F04D51D92168A9E6008D2FC8 /* LaunchScreen.storyboard */,
 				F04D51DC2168A9E6008D2FC8 /* Info.plist */,
 				F04D51DD2168A9E6008D2FC8 /* main.m */,
+				F0B17A6B21692F6600F3E88C /* macros.h */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -173,13 +182,24 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		F04D52072168B100008D2FC8 /* Networking */ = {
+		F04D52072168B100008D2FC8 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				F04D52082168B112008D2FC8 /* TunesManager.h */,
 				F04D52092168B112008D2FC8 /* TunesManager.m */,
+				F0B17A6421692D9300F3E88C /* AppManager.h */,
+				F0B17A6521692D9300F3E88C /* AppManager.m */,
 			);
-			path = Networking;
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		F0B17A6721692E0600F3E88C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F0B17A6821692E1300F3E88C /* App.h */,
+				F0B17A6921692E1300F3E88C /* App.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,9 +309,11 @@
 				F04D52032168AD33008D2FC8 /* AppsController+Actions.m in Sources */,
 				F04D51FF2168AC19008D2FC8 /* AppCell.m in Sources */,
 				F04D520A2168B112008D2FC8 /* TunesManager.m in Sources */,
+				F0B17A6A21692E1300F3E88C /* App.m in Sources */,
 				F04D51D02168A9E4008D2FC8 /* AppDelegate.m in Sources */,
 				F04D51F92168AA90008D2FC8 /* AppsController.m in Sources */,
 				F04D52062168ADC3008D2FC8 /* SearchAppController.m in Sources */,
+				F0B17A6621692D9300F3E88C /* AppManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

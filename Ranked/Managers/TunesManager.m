@@ -29,7 +29,9 @@ static TunesManager * sharedInstance = nil;
 
 #pragma mark -
 
-- (NSURLSessionTask *)searchForApp:(NSString *)title success:(void (^)(NSDictionary * _Nonnull))successCB error:(void (^)(NSError * _Nonnull))errorCB {
+- (NSURLSessionTask *)searchForApp:(NSString *)title success:(void (^)(NSArray <App *> * _Nonnull))successCB error:(void (^)(NSError * _Nonnull))errorCB {
+    
+    title = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
     
     NSString *path = [[NSString alloc] initWithFormat:@"https://itunes.apple.com/search?term=%@&country=US&entity=software,iPadSoftware&limit=25", title];
     
@@ -53,7 +55,7 @@ static TunesManager * sharedInstance = nil;
             return;
         }
         
-        NSDictionary *retval = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+        NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
         
         if (error) {
             
@@ -65,8 +67,34 @@ static TunesManager * sharedInstance = nil;
             
         }
         
+        /**
+         {
+         resultCount: Number,
+         results: Array <Object>
+         }
+         */
+        
+        if ([[responseObject valueForKey:@"resultCount"] integerValue] == 0) {
+#warning TODO: handle empty state.
+            return;
+        }
+        
+        // we have results
+        NSArray <NSDictionary *> * results = [responseObject objectForKey:@"results"];
+        
+        // we're only interested in a few keys from the results
+        NSMutableArray <App *> *retval = [NSMutableArray arrayWithCapacity:results.count];
+        
+        for (NSDictionary *obj in results) {
+            
+            App *app = [App instanceFromDictionary:obj];
+            
+            [retval addObject:app];
+            
+        }
+        
         if (successCB) {
-            successCB(retval);
+            successCB(retval.copy);
         }
         
     }];

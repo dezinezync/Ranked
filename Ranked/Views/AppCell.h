@@ -14,6 +14,10 @@ extern NSString *const kAppCell;
 
 @interface AppCell : UICollectionViewCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *appTitle;
+@property (weak, nonatomic) IBOutlet UILabel *category;
+
 @end
 
 NS_ASSUME_NONNULL_END

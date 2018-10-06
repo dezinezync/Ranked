@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "App.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedManager;
 
-- (NSURLSessionTask *)searchForApp:(NSString *)title success:(void(^ _Nullable)(NSDictionary * responseObject))successCB error:(void(^ _Nullable)(NSError *error))errorCB;
+- (NSURLSessionTask *)searchForApp:(NSString *)title success:(void(^ _Nullable)(NSArray <App *> * responseObject))successCB error:(void(^ _Nullable)(NSError *error))errorCB;
 
 @end
 

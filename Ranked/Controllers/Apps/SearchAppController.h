@@ -12,8 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SearchAppController : UITableViewController
 
-@property (nonatomic, copy) NSArray <NSDictionary *> *searchResults;
-
 @end
 
 NS_ASSUME_NONNULL_END

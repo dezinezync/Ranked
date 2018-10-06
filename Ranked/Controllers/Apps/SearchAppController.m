@@ -10,12 +10,17 @@
 #import "AppSearchCell.h"
 
 #import "TunesManager.h"
+#import "AppManager.h"
 
 @interface SearchAppController () <UISearchResultsUpdating>
 
 @property (nonatomic, weak) UISearchController *searchController;
 
 @property (nonatomic, weak) NSURLSessionTask *searchTask;
+
+@property (nonatomic, copy) NSIndexPath *selectedIndex;
+
+@property (nonatomic, copy) NSArray <App *> *searchResults;
 
 @end
 
@@ -30,6 +35,14 @@
      self.clearsSelectionOnViewWillAppear = NO;
     
     [self setupTableView];
+    
+    UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(didTapDone)];
+    done.enabled = NO;
+    done.accessibilityLabel = NSLocalizedString(@"controller.searchapp.done.label", @"a11y Done button label");
+    done.accessibilityHint = NSLocalizedString(@"controller.searchapp.done.hint", @"a11y Done button hint");
+    
+    self.navigationItem.rightBarButtonItem = done;
+    
 }
 
 - (BOOL)definesPresentationContext {
@@ -46,6 +59,16 @@
     });
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+    if ([self.searchController.searchBar isFirstResponder]) {
+        [self.searchController.searchBar resignFirstResponder];
+    }
+    
+}
+
 #pragma mark - <UITableViewDatasource>
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -60,13 +83,40 @@
     AppSearchCell *cell = (AppSearchCell *)[tableView dequeueReusableCellWithIdentifier:kAppSearchCell forIndexPath:indexPath];
     
     // Configure the cell...
-    NSDictionary *obj = [self.searchResults objectAtIndex:indexPath.item];
+    App *obj = [self.searchResults objectAtIndex:indexPath.item];
+
+    cell.appTitle.text = obj.name;
+    cell.developerName.text = obj.developer;
     
-#warning Convert dictionary to NSObject so it's easier to store and access
-    cell.appTitle.text = [obj valueForKey:@"name"];
-    cell.developerName.text = [obj valueForKey:@"developer"];
+#warning TODO: Implement App Icon image
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (self.selectedIndex != nil) {
+        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:self.selectedIndex];
+        
+        if (cell != nil) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
+    }
+    
+    if (self.navigationItem.rightBarButtonItem.isEnabled == NO) {
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }
+    
+    self.selectedIndex = indexPath;
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if (cell != nil) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    
 }
 
 #pragma mark - <UISearchResultsUpdating>
@@ -91,46 +141,13 @@
             return;
         }
         
-        self.searchTask = [[TunesManager sharedManager] searchForApp:text success:^(NSDictionary * _Nonnull responseObject) {
-            
-            /**
-             {
-                resultCount: Number,
-                results: Array <Object>
-             }
-             */
-            
-            if ([[responseObject valueForKey:@"resultCount"] integerValue] == 0) {
-                // handle empty state.
-                return;
-            }
-            
-            // we have results
-            NSArray <NSDictionary *> * results = [responseObject objectForKey:@"results"];
-            
-            // we're only interested in a few keys from the results
-            NSMutableArray *required = [NSMutableArray arrayWithCapacity:results.count];
-            
-            for (NSDictionary *obj in results) {
-                
-                NSDictionary *requisiteInfo = @{@"artistId": obj[@"artistId"],
-                                                @"developer": obj[@"sellerName"],
-                                                @"artwork": @[obj[@"artworkUrl100"], obj[@"artworkUrl512"], obj[@"artworkUrl60"]],
-                                                @"genre": obj[@"primaryGenreId"],
-                                                @"genreName": obj[@"primaryGenreName"],
-                                                @"name": obj[@"trackName"],
-                                                @"url": obj[@"trackViewUrl"]
-                                                };
-                
-                [required addObject:requisiteInfo];
-                
-            }
-            
-            results = required.copy;
+        self.searchTask = [[TunesManager sharedManager] searchForApp:text success:^(NSArray <App *> * _Nonnull responseObject) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                self.searchResults = results;
+                self.searchResults = responseObject;
+                
+                self.selectedIndex = nil;
                 
                 [self.tableView reloadData];
                 
@@ -146,6 +163,25 @@
         
     });
     
+}
+
+#pragma mark - Actions
+
+- (void)didTapDone {
+    
+    if (self.selectedIndex == nil) {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        
+        return;
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        App *app = [self.searchResults objectAtIndex:self.selectedIndex.row];
+        
+        [[AppManager sharedManager] addApp:app];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    });
 }
 
 #pragma mark -
