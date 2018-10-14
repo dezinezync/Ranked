@@ -12,6 +12,8 @@
 
 @interface AppController () {
     BOOL _shouldRefresh;
+    
+    BOOL _hasLoadedOnce;
 }
 
 @property (nonatomic, weak) App *app;
@@ -74,7 +76,12 @@
     
     [super viewWillAppear:animated];
     
-    if (self->_shouldRefresh) {
+    if (self->_hasLoadedOnce == NO) {
+        self->_hasLoadedOnce = YES;
+        
+        [self getData];
+    }
+    else if (self->_shouldRefresh) {
         self->_shouldRefresh = NO;
         
         [self getData];
@@ -133,6 +140,41 @@
 }
 
 - (void)getData {
+ 
+    [TunesManager.sharedManager ranksForApp:self.app progress:^(NSString * _Nonnull shortCode, NSNumber * _Nonnull rank) {
+        
+        // As a report becomes available, this block is called
+        NSUInteger index = [self.app.countries indexOfObject:shortCode];
+        if (index == NSNotFound) {
+            return;
+        }
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        RankCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        
+        NSNumber *old = self.app.rankings[shortCode];
+        
+        self.app.oldRankings[shortCode] = old;
+        self.app.rankings[shortCode] = rank;
+        
+        [cell updateRank:rank old:old];
+        
+    } success:^(NSDictionary<NSString *,NSNumber *> * _Nonnull responseObjects) {
+        
+        // Once all reports are available, this block is called
+        
+        self.app.rankings = responseObjects.mutableCopy;
+        [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationFade];
+        
+        [AppManager.sharedManager save];
+        
+    } error:^(NSError * _Nonnull error) {
+        
+        // This block can be called multiple times so we never present an Alert dialog from here.
+        
+        NSLog(@"Error: %@", error);
+        
+    }];
     
 }
 

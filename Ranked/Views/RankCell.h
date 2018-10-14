@@ -23,6 +23,8 @@ extern NSString *const kRankCell;
 
 - (void)configure:(Country *)country app:(App *)app;
 
+- (void)updateRank:(NSNumber *)newRank old:(NSNumber *)oldRank;
+
 @end
 
 NS_ASSUME_NONNULL_END

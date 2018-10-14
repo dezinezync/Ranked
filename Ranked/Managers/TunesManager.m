@@ -14,7 +14,12 @@ static TunesManager * sharedInstance = nil;
 
 @interface TunesManager ()
 
+@property (nonatomic, strong) NSURLSession *session;
+@property (nonatomic, strong) dispatch_queue_t queue;
+
 @property (nonatomic, strong, readwrite) NSOrderedSet <Country *> *countries;
+
+- (NSURLSessionTask *)rankForApp:(App *)app countryCode:(NSString *)code success:(void(^ _Nullable)(NSNumber *))successCB error:(void(^ _Nullable)(NSError *error))errorCB;
 
 @end
 
@@ -33,20 +38,191 @@ static TunesManager * sharedInstance = nil;
     
 }
 
+- (instancetype)init {
+    
+    if (self = [super init]) {
+        
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        config.waitsForConnectivity = NO;
+        config.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
+        config.timeoutIntervalForRequest = 30;
+        config.allowsCellularAccess = YES;
+        config.HTTPShouldUsePipelining = YES;
+        config.HTTPShouldSetCookies = YES;
+        config.HTTPMaximumConnectionsPerHost = 10;
+        config.URLCache = [NSURLCache sharedURLCache];
+        
+        self.session = [NSURLSession sessionWithConfiguration:config];
+        self.session.sessionDescription = @"Ranked's base networking session used by it's TunesManager class.";
+        
+        self.queue = dispatch_queue_create("com.ranked.tunesManager", DISPATCH_QUEUE_CONCURRENT);
+    }
+    
+    return self;
+    
+}
+
 #pragma mark -
 
 - (NSURLSessionTask *)searchForApp:(NSString *)title success:(void (^)(NSArray <App *> * _Nonnull))successCB error:(void (^)(NSError * _Nonnull))errorCB {
     
-    title = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    __block NSURLSessionTask *task = nil;
     
-    NSString *path = [[NSString alloc] initWithFormat:@"https://itunes.apple.com/search?term=%@&country=US&entity=software,iPadSoftware&limit=25", title];
+    dispatch_sync(self.queue, ^{
+       
+        NSString *encodedTitle = [title stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+        
+        NSString *path = [[NSString alloc] initWithFormat:@"https://itunes.apple.com/search?term=%@&country=US&entity=software,iPadSoftware&limit=25", encodedTitle];
+        
+        NSURL *url = [NSURL URLWithString:path];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kTimeoutInterval];
+        
+        task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            
+            if (error) {
+                
+                if (errorCB) {
+                    errorCB(error);
+                }
+                
+                return;
+                
+            }
+            
+            if (!successCB) {
+                return;
+            }
+            
+            NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+            
+            if (error) {
+                
+                if (errorCB) {
+                    errorCB(error);
+                }
+                
+                return;
+                
+            }
+            
+            /**
+             {
+             resultCount: Number,
+             results: Array <Object>
+             }
+             */
+            
+            if ([[responseObject valueForKey:@"resultCount"] integerValue] == 0) {
+#warning TODO: handle empty state.
+                return;
+            }
+            
+            // we have results
+            NSArray <NSDictionary *> * results = [responseObject objectForKey:@"results"];
+            
+            // we're only interested in a few keys from the results
+            NSMutableArray <App *> *retval = [NSMutableArray arrayWithCapacity:results.count];
+            
+            for (NSDictionary *obj in results) {
+                
+                App *app = [App instanceFromDictionary:obj];
+                
+                [retval addObject:app];
+                
+            }
+            
+            if (successCB) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    successCB(retval.copy);
+                });
+            }
+            
+        }];
+        
+        [task resume];
+        
+    });
     
+    return task;
+    
+}
+
+- (void)ranksForApp:(App *)app progress:(void (^)(NSString * _Nonnull, NSNumber * _Nonnull))progressCB success:(void (^)(NSDictionary <NSString *, NSNumber *> * _Nonnull))successCB error:(void (^)(NSError * _Nonnull))errorCB {
+    
+    // this can mutate at any time
+    // so we keep a copy of it
+    NSArray *countries = app.countries.copy;
+    
+    if (countries.count == 0) {
+        successCB(@{});
+        return;
+    }
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    dispatch_async(queue, ^{
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        
+        NSMutableDictionary <NSString *, id> *taskResponses = @{}.mutableCopy;
+        NSMutableArray <NSURLSessionTask *> *tasks = [NSMutableArray arrayWithCapacity:countries.count];
+        
+        for (NSString *obj in countries) { @autoreleasepool {
+            
+            NSURLSessionTask *task = [self rankForApp:app countryCode:obj success:^(NSNumber * rank) {
+                
+                taskResponses[obj] = rank;
+                
+                if (progressCB) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        progressCB(obj, rank);
+                    });
+                }
+                
+                dispatch_semaphore_signal(semaphore);
+                
+            } error:^(NSError *error) {
+                
+                if (errorCB) {
+                    errorCB(error);
+                }
+                
+                dispatch_semaphore_signal(semaphore);
+                
+            }];
+            
+            [task resume];
+            
+            [tasks addObject:task];
+            
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+            
+        } }
+        
+        // all the above tasks have completed
+        if (successCB) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                successCB(taskResponses);
+                
+            });
+        }
+    });
+    
+}
+
+- (NSURLSessionTask *)rankForApp:(App *)app countryCode:(NSString *)code success:(void (^)(NSNumber *))successCB error:(void (^)(NSError *))errorCB {
+    
+    NSString *path = [[NSString alloc] initWithFormat:@"https://itunes.apple.com/%@/rss/topfreeapplications/limit=200/genre=%@/json", [code lowercaseString], app.genre];
+    NSLog(@"%@", path);
     NSURL *url = [NSURL URLWithString:path];
+    
+    NSString *appID = [app.appID stringValue];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kTimeoutInterval];
     
-    NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-       
+    NSURLSessionTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
         if (error) {
             
             if (errorCB) {
@@ -61,7 +237,7 @@ static TunesManager * sharedInstance = nil;
             return;
         }
         
-        NSDictionary *responseObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+        id responseObject = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
         
         if (error) {
             
@@ -73,39 +249,30 @@ static TunesManager * sharedInstance = nil;
             
         }
         
-        /**
-         {
-         resultCount: Number,
-         results: Array <Object>
-         }
-         */
-        
-        if ([[responseObject valueForKey:@"resultCount"] integerValue] == 0) {
-#warning TODO: handle empty state.
-            return;
+        NSArray <NSDictionary *> *entries = nil;
+        @try {
+            entries = responseObject[@"feed"][@"entry"];
+        }
+        @catch (NSException *exc) {
+            entries = @[];
         }
         
-        // we have results
-        NSArray <NSDictionary *> * results = [responseObject objectForKey:@"results"];
+        __block NSInteger rank = 0;
         
-        // we're only interested in a few keys from the results
-        NSMutableArray <App *> *retval = [NSMutableArray arrayWithCapacity:results.count];
-        
-        for (NSDictionary *obj in results) {
+        [entries enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            App *app = [App instanceFromDictionary:obj];
+            NSString *identifier = obj[@"id"][@"attributes"][@"im:id"];
             
-            [retval addObject:app];
+            if ([identifier isEqualToString:appID]) {
+                rank = idx + 1;
+                *stop = YES;
+            }
             
-        }
+        }];
         
-        if (successCB) {
-            successCB(retval.copy);
-        }
-        
+        successCB(@(rank));
+         
     }];
-    
-    [task resume];
     
     return task;
     

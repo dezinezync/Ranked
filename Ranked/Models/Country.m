@@ -158,4 +158,8 @@ static NSCache * _flagCache = nil;
     return _flagCache;
 }
 
++ (void)setFlagCache:(NSCache *)flagCache {
+    _flagCache = flagCache;
+}
+
 @end

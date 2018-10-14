@@ -245,10 +245,19 @@ if (self.<#keyname#> != nil) {
 
 #pragma mark - Setter Overrides
 
-- (void)setRankings:(NSDictionary<NSString *,NSNumber *> *)rankings {
+- (void)setRankings:(NSMutableDictionary <NSString *,NSNumber *> *)rankings {
     
     if (_rankings != nil) {
-        self.oldRankings = [_rankings copy];
+        self.oldRankings = [_rankings mutableCopy];
+    }
+    
+    // ensure the copy is mutable
+    @try {
+        rankings[@"__test"] = @(0);
+        [rankings removeObjectForKey:@"__test"];
+    }
+    @catch (NSException *exc) {
+        rankings = [rankings mutableCopy];
     }
     
     _rankings = rankings;

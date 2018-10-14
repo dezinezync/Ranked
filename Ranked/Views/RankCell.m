@@ -40,11 +40,17 @@ NSString *const kRankCell = @"com.ranked.cell.rank";
     NSNumber *current = (app.rankings[country.shortCode] ?: @0);
     NSNumber *old = (app.oldRankings[country.shortCode] ?: @0);
     
-    self.rankLabel.text = [current stringValue];
+    [self updateRank:current old:old];
     
-    NSInteger change = current.integerValue - old.integerValue;
+}
+
+- (void)updateRank:(NSNumber *)newRank old:(NSNumber *)oldRank {
     
-    self.changeLabel.text = [@(change) stringValue];
+    self.rankLabel.text = [newRank integerValue] == 0 ? @"-" : [newRank stringValue];
+    
+    NSInteger change = newRank.integerValue - oldRank.integerValue;
+    
+    self.changeLabel.text = change == 0 ? @"-" : [@(change) stringValue];
     
     if (change == 0) {
         self.changeLabel.textColor = UIColor.lightGrayColor;
@@ -55,7 +61,6 @@ NSString *const kRankCell = @"com.ranked.cell.rank";
     else {
         self.changeLabel.textColor = UIColor.redColor;
     }
-    
     
 }
 
