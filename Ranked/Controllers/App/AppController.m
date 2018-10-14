@@ -10,6 +10,10 @@
 #import "CountriesController.h"
 #import "RankCell.h"
 
+#import "macros.h"
+
+static void *KVO_App_Countries = &KVO_App_Countries;
+
 @interface AppController () {
     BOOL _shouldRefresh;
     
@@ -46,12 +50,6 @@
     
     self.tableView.refreshControl = refreshControl;
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(RankCell.class) bundle:nil] forCellReuseIdentifier:kRankCell];
     self.tableView.tableFooterView = [UIView new];
     
@@ -60,6 +58,8 @@
     countries.accessibilityHint = NSLocalizedString(@"controller.app.edit.hint", @"a11y hint for the Edit button");
     
     self.navigationItem.rightBarButtonItem = countries;
+    
+    [self.app addObserver:self forKeyPath:propSel(countries) options:NSKeyValueObservingOptionNew context:KVO_App_Countries];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -85,6 +85,14 @@
         self->_shouldRefresh = NO;
         
         [self getData];
+    }
+    
+}
+
+- (void)dealloc {
+    
+    if (self.app != nil) {
+        [self.app removeObserver:self forKeyPath:propSel(countries) context:KVO_App_Countries];
     }
     
 }
@@ -164,7 +172,9 @@
         // Once all reports are available, this block is called
         
         self.app.rankings = responseObjects.mutableCopy;
-        [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationFade];
+        
+        // this ensures that our visible cells get updated if the result was updated when the row wasn't visible.
+        [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
         
         [AppManager.sharedManager save];
         
@@ -175,6 +185,24 @@
         NSLog(@"Error: %@", error);
         
     }];
+    
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    
+    if ([keyPath isEqualToString:propSel(countries)]
+        && object == self.app
+        && context == KVO_App_Countries) {
+        
+        [self.tableView reloadData];
+        [self getData];
+        
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
     
 }
 

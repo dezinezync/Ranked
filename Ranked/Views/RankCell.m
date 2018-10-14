@@ -50,7 +50,7 @@ NSString *const kRankCell = @"com.ranked.cell.rank";
     
     NSInteger change = newRank.integerValue - oldRank.integerValue;
     
-    self.changeLabel.text = change == 0 ? @"-" : [@(change) stringValue];
+    self.changeLabel.text = change == 0 ? nil : [@(change) stringValue];
     
     if (change == 0) {
         self.changeLabel.textColor = UIColor.lightGrayColor;

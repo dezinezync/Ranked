@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // list of country codes for which the app tracks it's rankings.
 // this allows for different apps to have different trackings.
-@property (nonatomic, strong) NSArray <NSString *> * countries;
+@property (nonatomic, strong) NSOrderedSet <NSString *> * countries;
 
 // this dict is persisted to disk
 @property (nonatomic, strong) NSMutableDictionary <NSString *, NSNumber *> *rankings;

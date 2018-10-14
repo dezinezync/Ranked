@@ -35,12 +35,6 @@ NSString *const kCountryCell = @"com.ranked.cells.country";
     
     self.tableView.allowsMultipleSelection = YES;
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(didTapDone:)];
     
     [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:kCountryCell];
@@ -103,9 +97,13 @@ NSString *const kCountryCell = @"com.ranked.cells.country";
     
     sender.enabled = NO;
     
-    NSArray <NSIndexPath *> *selectedIndexPaths =  [self.tableView indexPathsForSelectedRows];
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"row" ascending:YES];
     
-    NSMutableArray <NSString *> *selectedCountries = [NSMutableArray arrayWithCapacity:selectedIndexPaths.count];
+    NSArray <NSIndexPath *> *selected = [[self.tableView indexPathsForSelectedRows] sortedArrayUsingDescriptors:@[descriptor]];
+    
+    NSOrderedSet <NSIndexPath *> *selectedIndexPaths =  [NSOrderedSet orderedSetWithArray:selected];
+    
+    NSMutableOrderedSet <NSString *> *selectedCountries = [[NSMutableOrderedSet alloc] initWithCapacity:selectedIndexPaths.count];
     
     NSOrderedSet *countries = TunesManager.sharedManager.countries;
     

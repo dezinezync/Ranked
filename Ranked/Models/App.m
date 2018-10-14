@@ -42,7 +42,7 @@
 
 - (void)setup {
     self.artwork = @{};
-    self.countries = @[@"AU", @"AT", @"CA", @"CN", @"FR", @"DE", @"GB", @"HK", @"IN", @"IT", @"JP", @"MX", @"NL", @"SG", @"US"];
+    self.countries = [NSOrderedSet orderedSetWithArray:@[@"AU", @"AT", @"CA", @"CN", @"FR", @"DE", @"GB", @"HK", @"IN", @"IT", @"JP", @"MX", @"NL", @"SG", @"US"]];
     
     NSMutableDictionary *dict = @{}.mutableCopy;
     for (NSString *code in self.countries) {
@@ -90,6 +90,26 @@
 }
 
 #pragma mark - KVC
+
+- (void)setValue:(id)value forKey:(NSString *)key {
+    
+    if ([key isEqualToString:propSel(countries)] && [value isKindOfClass:NSArray.class]) {
+        
+        value = [NSOrderedSet orderedSetWithArray:value];
+        
+    }
+    
+    if (([key isEqualToString:propSel(rankings)]
+        || [key isEqualToString:propSel(oldRankings)])
+        && [value isKindOfClass:NSMutableDictionary.class] == NO) {
+        
+        value = [value mutableCopy];
+        
+    }
+    
+    [super setValue:value forKey:key];
+    
+}
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     
@@ -205,7 +225,7 @@ if (self.<#keyname#> != nil) {
     }
     
     if (self.countries) {
-        [dict setObject:self.countries forKey:propSel(countries)];
+        [dict setObject:self.countries.array forKey:propSel(countries)];
     }
     
     if (self.rankings) {
@@ -246,7 +266,7 @@ if (self.<#keyname#> != nil) {
 #pragma mark - Setter Overrides
 
 - (void)setRankings:(NSMutableDictionary <NSString *,NSNumber *> *)rankings {
-    
+
     if (_rankings != nil) {
         self.oldRankings = [_rankings mutableCopy];
     }
@@ -264,7 +284,7 @@ if (self.<#keyname#> != nil) {
     
 }
 
-- (void)setCountries:(NSArray<NSString *> *)countries {
+- (void)setCountries:(NSOrderedSet <NSString *> *)countries {
     
     NSPointerArray *mapped = [NSPointerArray weakObjectsPointerArray];
     
