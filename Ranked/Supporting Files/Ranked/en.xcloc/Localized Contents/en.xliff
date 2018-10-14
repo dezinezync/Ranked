@@ -5,8 +5,9 @@
     </header>
     <body>
       <trans-unit id="CFBundleName">
-        <source>$(PRODUCT_NAME)</source>
-        <note>Bundle name</note><target>Ranked</target>
+        <source>Ranked</source>
+        <target>Ranked</target>
+        <note>Bundle name</note>
       </trans-unit>
     </body>
   </file>
@@ -15,21 +16,40 @@
       <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="10.0" build-num="10A254a"/>
     </header>
     <body>
+      <trans-unit id="com.controller.searchapp.search.title">
+        <source>com.controller.searchapp.search.title</source>
+        <target>Search Apps</target>
+        <note>Search Bar Placeholder</note>
+      </trans-unit>
       <trans-unit id="controller.apps.new.hint">
-        <source>controller.apps.new.hint</source>
-        <note>a11y hint for the Add button</note><target>Add a new App</target>
+        <source>Add a new App</source>
+        <target>Add a new app</target>
+        <note>a11y hint for the Add button</note>
       </trans-unit>
       <trans-unit id="controller.apps.new.title">
-        <source>controller.apps.new.title</source>
-        <note>a11y title for the Add button</note><target>New App</target>
+        <source>New App</source>
+        <target>Add New App</target>
+        <note>a11y title for the Add button</note>
       </trans-unit>
       <trans-unit id="controller.apps.title">
-        <source>controller.apps.title</source>
-        <note>No comment provided by engineer.</note><target>Your Apps</target>
+        <source>Your Apps</source>
+        <target>Your Apps</target>
+        <note>No comment provided by engineer.</note>
+      </trans-unit>
+      <trans-unit id="controller.searchapp.done.hint">
+        <source>controller.searchapp.done.hint</source>
+        <target>Select App and add to your list</target>
+        <note>a11y Done button hint</note>
+      </trans-unit>
+      <trans-unit id="controller.searchapp.done.label">
+        <source>controller.searchapp.done.label</source>
+        <target>Select App</target>
+        <note>a11y Done button label</note>
       </trans-unit>
       <trans-unit id="controller.searchapp.title">
-        <source>controller.searchapp.title</source>
-        <note>No comment provided by engineer.</note><target>Search for App</target>
+        <source>Search for App</source>
+        <target>Search App</target>
+        <note>No comment provided by engineer.</note>
       </trans-unit>
     </body>
   </file>

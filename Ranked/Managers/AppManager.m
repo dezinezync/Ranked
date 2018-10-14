@@ -8,6 +8,9 @@
 
 #import "AppManager.h"
 
+NSNotificationName const UserDidAddApp = @"com.ranked.appManager.userDidAddApp";
+NSString *const kNewApp = @"com.ranked.appManager.key.newApp";
+
 static NSString *const kAppsKey = @"com.dezinezync.ranked.key.apps";
 
 static AppManager * sharedInstance = nil;

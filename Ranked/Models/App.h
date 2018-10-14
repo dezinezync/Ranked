@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface App : NSObject <NSCoding>
 
+@property (nonatomic, copy) NSNumber *appID; 
 @property (nonatomic, copy) NSString *developerID;
 @property (nonatomic, copy) NSString *developer;
 @property (nonatomic, strong) NSDictionary <NSString *, NSURL *> *artwork; // keys are 100, 60 and 512. None are guaranteed to be present.
@@ -25,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 
 - (NSDictionary *)dictionaryRepresentation;
+
+- (BOOL)isEqualToApp:(App *)app;
 
 @end
 

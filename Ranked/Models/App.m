@@ -41,6 +41,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     
+    [aCoder encodeObject:self.appID forKey:propSel(appID)];
     [aCoder encodeObject:self.developerID forKey:propSel(developerID)];
     [aCoder encodeObject:self.developer forKey:propSel(developer)];
     [aCoder encodeObject:self.artwork forKey:propSel(artwork)];
@@ -54,6 +55,7 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     
     if (self = [super init]) {
+        self.appID = [aDecoder decodeObjectForKey:propSel(appID)];
         self.developerID = [aDecoder decodeObjectForKey:propSel(developerID)];
         self.developer = [aDecoder decodeObjectForKey:propSel(developer)];
         self.artwork = [aDecoder decodeObjectForKey:propSel(artwork)];
@@ -71,7 +73,10 @@
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {
     
-    if ([key isEqualToString:@"artistId"]) {
+    if ([key isEqualToString:@"trackId"]) {
+        self.appID = value;
+    }
+    else if ([key isEqualToString:@"artistId"]) {
         self.developerID = value;
     }
     else if ([key isEqualToString:@"sellerName"]) {
@@ -129,6 +134,10 @@ if (self.<#keyname#> != nil) {
     
     NSMutableDictionary *dict = @{}.mutableCopy;
     
+    if (self.appID != nil) {
+        [dict setValue:self.appID forKey:propSel(appID)];
+    }
+    
     if (self.developerID != nil) {
         [dict setValue:self.developerID forKey:propSel(developerID)];
     }
@@ -177,6 +186,33 @@ if (self.<#keyname#> != nil) {
     
     return dict.copy;
     
+}
+
+#pragma mark - Equality
+
+- (BOOL)isEqual:(id)object {
+    if (object == nil) {
+        return NO;
+    }
+    
+    if ([object isKindOfClass:App.class]) {
+        return [self isEqualToApp:object];
+    }
+    
+    return NO;
+}
+
+- (BOOL)isEqualToApp:(App *)app {
+    if (app == nil) {
+        return NO;
+    }
+    
+    if ([app.developerID isEqualToString:self.developerID]
+        && [app.appID isEqualToNumber:self.appID]) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

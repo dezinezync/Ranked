@@ -1,0 +1,522 @@
+{
+    "DZ": {
+        "name": "Algeria",
+        "storeFrontID": "143563"
+    },
+    "AO": {
+        "name": "Angola",
+        "storeFrontID": "143564"
+    },
+    "AI": {
+        "name": "Anguilla",
+        "storeFrontID": "143538"
+    },
+    "AG": {
+        "name": "Antigua & Barbuda",
+        "storeFrontID": "143540"
+    },
+    "AR": {
+        "name": "Argentina",
+        "storeFrontID": "143505"
+    },
+    "AM": {
+        "name": "Armenia",
+        "storeFrontID": "143524"
+    },
+    "AU": {
+        "name": "Australia",
+        "storeFrontID": "143460"
+    },
+    "AT": {
+        "name": "Austria",
+        "storeFrontID": "143445"
+    },
+    "AZ": {
+        "name": "Azerbaijan",
+        "storeFrontID": "143568"
+    },
+    "BH": {
+        "name": "Bahrain",
+        "storeFrontID": "143559"
+    },
+    "BD": {
+        "name": "Bangladesh",
+        "storeFrontID": "143490"
+    },
+    "BB": {
+        "name": "Barbados",
+        "storeFrontID": "143541"
+    },
+    "BY": {
+        "name": "Belarus",
+        "storeFrontID": "143565"
+    },
+    "BE": {
+        "name": "Belgium",
+        "storeFrontID": "143446"
+    },
+    "BZ": {
+        "name": "Belize",
+        "storeFrontID": "143555"
+    },
+    "BM": {
+        "name": "Bermuda",
+        "storeFrontID": "143542"
+    },
+    "BO": {
+        "name": "Bolivia",
+        "storeFrontID": "143556"
+    },
+    "BW": {
+        "name": "Botswana",
+        "storeFrontID": "143525"
+    },
+    "BR": {
+        "name": "Brazil",
+        "storeFrontID": "143503"
+    },
+    "VG": {
+        "name": "British Virgin Islands",
+        "storeFrontID": "143543"
+    },
+    "BN": {
+        "name": "Brunei",
+        "storeFrontID": "143560"
+    },
+    "BG": {
+        "name": "Bulgaria",
+        "storeFrontID": "143526"
+    },
+    "CA": {
+        "name": "Canada",
+        "storeFrontID": "143455"
+    },
+    "KY": {
+        "name": "Cayman Islands",
+        "storeFrontID": "143544"
+    },
+    "CL": {
+        "name": "Chile",
+        "storeFrontID": "143483"
+    },
+    "CN": {
+        "name": "China",
+        "storeFrontID": "143465"
+    },
+    "CO": {
+        "name": "Colombia",
+        "storeFrontID": "143501"
+    },
+    "CR": {
+        "name": "Costa Rica",
+        "storeFrontID": "143495"
+    },
+    "CI": {
+        "name": "Cote D’Ivoire",
+        "storeFrontID": "143527"
+    },
+    "HR": {
+        "name": "Croatia",
+        "storeFrontID": "143494"
+    },
+    "CY": {
+        "name": "Cyprus",
+        "storeFrontID": "143557"
+    },
+    "CZ": {
+        "name": "Czech Republic",
+        "storeFrontID": "143489"
+    },
+    "DK": {
+        "name": "Denmark",
+        "storeFrontID": "143458"
+    },
+    "DM": {
+        "name": "Dominica",
+        "storeFrontID": "143545"
+    },
+    "DO": {
+        "name": "Dominican Rep.",
+        "storeFrontID": "143508"
+    },
+    "EC": {
+        "name": "Ecuador",
+        "storeFrontID": "143509"
+    },
+    "EG": {
+        "name": "Egypt",
+        "storeFrontID": "143516"
+    },
+    "SV": {
+        "name": "El Salvador",
+        "storeFrontID": "143506"
+    },
+    "EE": {
+        "name": "Estonia",
+        "storeFrontID": "143518"
+    },
+    "FI": {
+        "name": "Finland",
+        "storeFrontID": "143447"
+    },
+    "FR": {
+        "name": "France",
+        "storeFrontID": "143442"
+    },
+    "DE": {
+        "name": "Germany",
+        "storeFrontID": "143443"
+    },
+    "GH": {
+        "name": "Ghana",
+        "storeFrontID": "143573"
+    },
+    "GR": {
+        "name": "Greece",
+        "storeFrontID": "143448"
+    },
+    "GD": {
+        "name": "Grenada",
+        "storeFrontID": "143546"
+    },
+    "GT": {
+        "name": "Guatemala",
+        "storeFrontID": "143504"
+    },
+    "GY": {
+        "name": "Guyana",
+        "storeFrontID": "143553"
+    },
+    "HN": {
+        "name": "Honduras",
+        "storeFrontID": "143510"
+    },
+    "HK": {
+        "name": "Hong Kong",
+        "storeFrontID": "143463"
+    },
+    "HU": {
+        "name": "Hungary",
+        "storeFrontID": "143482"
+    },
+    "IS": {
+        "name": "Iceland",
+        "storeFrontID": "143558"
+    },
+    "IN": {
+        "name": "India",
+        "storeFrontID": "143467"
+    },
+    "ID": {
+        "name": "Indonesia",
+        "storeFrontID": "143476"
+    },
+    "IE": {
+        "name": "Ireland",
+        "storeFrontID": "143449"
+    },
+    "IL": {
+        "name": "Israel",
+        "storeFrontID": "143491"
+    },
+    "IT": {
+        "name": "Italy",
+        "storeFrontID": "143450"
+    },
+    "JM": {
+        "name": "Jamaica",
+        "storeFrontID": "143511"
+    },
+    "JP": {
+        "name": "Japan",
+        "storeFrontID": "143462"
+    },
+    "JO": {
+        "name": "Jordan",
+        "storeFrontID": "143528"
+    },
+    "KZ": {
+        "name": "Kazakstan",
+        "storeFrontID": "143517"
+    },
+    "KE": {
+        "name": "Kenya",
+        "storeFrontID": "143529"
+    },
+    "KR": {
+        "name": "Korea, Republic Of",
+        "storeFrontID": "143466"
+    },
+    "KW": {
+        "name": "Kuwait",
+        "storeFrontID": "143493"
+    },
+    "LV": {
+        "name": "Latvia",
+        "storeFrontID": "143519"
+    },
+    "LB": {
+        "name": "Lebanon",
+        "storeFrontID": "143497"
+    },
+    "LI": {
+        "name": "Liechtenstein",
+        "storeFrontID": "143522"
+    },
+    "LT": {
+        "name": "Lithuania",
+        "storeFrontID": "143520"
+    },
+    "LU": {
+        "name": "Luxembourg",
+        "storeFrontID": "143451"
+    },
+    "MO": {
+        "name": "Macau",
+        "storeFrontID": "143515"
+    },
+    "MK": {
+        "name": "Macedonia",
+        "storeFrontID": "143530"
+    },
+    "MG": {
+        "name": "Madagascar",
+        "storeFrontID": "143531"
+    },
+    "MY": {
+        "name": "Malaysia",
+        "storeFrontID": "143473"
+    },
+    "MV": {
+        "name": "Maldives",
+        "storeFrontID": "143488"
+    },
+    "ML": {
+        "name": "Mali",
+        "storeFrontID": "143532"
+    },
+    "MT": {
+        "name": "Malta",
+        "storeFrontID": "143521"
+    },
+    "MU": {
+        "name": "Mauritius",
+        "storeFrontID": "143533"
+    },
+    "MX": {
+        "name": "Mexico",
+        "storeFrontID": "143468"
+    },
+    "MD": {
+        "name": "Moldova, Republic Of",
+        "storeFrontID": "143523"
+    },
+    "MS": {
+        "name": "Montserrat",
+        "storeFrontID": "143547"
+    },
+    "NP": {
+        "name": "Nepal",
+        "storeFrontID": "143484"
+    },
+    "NL": {
+        "name": "Netherlands",
+        "storeFrontID": "143452"
+    },
+    "NZ": {
+        "name": "New Zealand",
+        "storeFrontID": "143461"
+    },
+    "NI": {
+        "name": "Nicaragua",
+        "storeFrontID": "143512"
+    },
+    "NE": {
+        "name": "Niger",
+        "storeFrontID": "143534"
+    },
+    "NG": {
+        "name": "Nigeria",
+        "storeFrontID": "143561"
+    },
+    "NO": {
+        "name": "Norway",
+        "storeFrontID": "143457"
+    },
+    "OM": {
+        "name": "Oman",
+        "storeFrontID": "143562"
+    },
+    "PK": {
+        "name": "Pakistan",
+        "storeFrontID": "143477"
+    },
+    "PA": {
+        "name": "Panama",
+        "storeFrontID": "143485"
+    },
+    "PY": {
+        "name": "Paraguay",
+        "storeFrontID": "143513"
+    },
+    "PE": {
+        "name": "Peru",
+        "storeFrontID": "143507"
+    },
+    "PH": {
+        "name": "Philippines",
+        "storeFrontID": "143474"
+    },
+    "PL": {
+        "name": "Poland",
+        "storeFrontID": "143478"
+    },
+    "PT": {
+        "name": "Portugal",
+        "storeFrontID": "143453"
+    },
+    "QA": {
+        "name": "Qatar",
+        "storeFrontID": "143498"
+    },
+    "RO": {
+        "name": "Romania",
+        "storeFrontID": "143487"
+    },
+    "RU": {
+        "name": "Russia",
+        "storeFrontID": "143469"
+    },
+    "SA": {
+        "name": "Saudi Arabia",
+        "storeFrontID": "143479"
+    },
+    "SN": {
+        "name": "Senegal",
+        "storeFrontID": "143535"
+    },
+    "RS": {
+        "name": "Serbia",
+        "storeFrontID": "143500"
+    },
+    "SG": {
+        "name": "Singapore",
+        "storeFrontID": "143464"
+    },
+    "SK": {
+        "name": "Slovakia",
+        "storeFrontID": "143496"
+    },
+    "SI": {
+        "name": "Slovenia",
+        "storeFrontID": "143499"
+    },
+    "ZA": {
+        "name": "South Africa",
+        "storeFrontID": "143472"
+    },
+    "ES": {
+        "name": "Spain",
+        "storeFrontID": "143454"
+    },
+    "LK": {
+        "name": "Sri Lanka",
+        "storeFrontID": "143486"
+    },
+    "KN": {
+        "name": "St. Kitts & Nevis",
+        "storeFrontID": "143548"
+    },
+    "LC": {
+        "name": "St. Lucia",
+        "storeFrontID": "143549"
+    },
+    "VC": {
+        "name": "St. Vincent & The Grenadines",
+        "storeFrontID": "143550"
+    },
+    "SR": {
+        "name": "Suriname",
+        "storeFrontID": "143554"
+    },
+    "SE": {
+        "name": "Sweden",
+        "storeFrontID": "143456"
+    },
+    "CH": {
+        "name": "Switzerland",
+        "storeFrontID": "143459"
+    },
+    "TW": {
+        "name": "Taiwan",
+        "storeFrontID": "143470"
+    },
+    "TZ": {
+        "name": "Tanzania",
+        "storeFrontID": "143572"
+    },
+    "TH": {
+        "name": "Thailand",
+        "storeFrontID": "143475"
+    },
+    "BS": {
+        "name": "The Bahamas",
+        "storeFrontID": "143539"
+    },
+    "TT": {
+        "name": "Trinidad & Tobago",
+        "storeFrontID": "143551"
+    },
+    "TN": {
+        "name": "Tunisia",
+        "storeFrontID": "143536"
+    },
+    "TR": {
+        "name": "Turkey",
+        "storeFrontID": "143480"
+    },
+    "TC": {
+        "name": "Turks & Caicos",
+        "storeFrontID": "143552"
+    },
+    "UG": {
+        "name": "Uganda",
+        "storeFrontID": "143537"
+    },
+    "GB": {
+        "name": "UK",
+        "storeFrontID": "143444"
+    },
+    "UA": {
+        "name": "Ukraine",
+        "storeFrontID": "143492"
+    },
+    "AE": {
+        "name": "United Arab Emirates",
+        "storeFrontID": "143481"
+    },
+    "UY": {
+        "name": "Uruguay",
+        "storeFrontID": "143514"
+    },
+    "US": {
+        "name": "USA",
+        "storeFrontID": "143441"
+    },
+    "UZ": {
+        "name": "Uzbekistan",
+        "storeFrontID": "143566"
+    },
+    "VE": {
+        "name": "Venezuela",
+        "storeFrontID": "143502"
+    },
+    "VN": {
+        "name": "Vietnam",
+        "storeFrontID": "143471"
+    },
+    "YE": {
+        "name": "Yemen",
+        "storeFrontID": "143571"
+    }
+}

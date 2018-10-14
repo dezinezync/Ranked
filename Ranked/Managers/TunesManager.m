@@ -12,6 +12,12 @@ static NSTimeInterval const kTimeoutInterval = 60;
 
 static TunesManager * sharedInstance = nil;
 
+@interface TunesManager ()
+
+@property (nonatomic, strong, readwrite) NSArray <Country *> *countries;
+
+@end
+
 @implementation TunesManager
 
 + (instancetype)sharedManager {
@@ -102,6 +108,39 @@ static TunesManager * sharedInstance = nil;
     [task resume];
     
     return task;
+    
+}
+
+#pragma mark - Getters
+
+- (NSArray <Country *> *)countries {
+    
+    if (!_countries) {
+        
+        NSString *filepath = [[NSBundle mainBundle] pathForResource:@"countries" ofType:@"json"];
+        
+        if (filepath != nil) {
+            NSData *jsonData = [[NSData alloc] initWithContentsOfFile:filepath];
+            
+            NSDictionary <NSString *, NSDictionary *> *list = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+            
+            NSMutableArray *members = [[NSMutableArray alloc] initWithCapacity:list.allKeys.count];
+            
+            [list enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSDictionary * _Nonnull obj, BOOL * _Nonnull stop) {
+               
+                Country *instance = [Country instanceFromDictionary:obj forCode:key];
+                
+                [members addObject:instance];
+                
+            }];
+            
+            _countries = members.copy;
+            
+        }
+        
+    }
+    
+    return _countries;
     
 }
 

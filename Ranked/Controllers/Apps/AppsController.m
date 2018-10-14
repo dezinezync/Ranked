@@ -11,6 +11,7 @@
 
 #import "AppManager.h"
 #import "macros.h"
+#import "AppController.h"
 
 static void *KVO_Apps = &KVO_Apps;
 
@@ -29,7 +30,7 @@ static void *KVO_Apps = &KVO_Apps;
     self.apps = [AppManager sharedManager].apps;
     
     // Uncomment the following line to preserve selection between presentations
-     self.clearsSelectionOnViewWillAppear = NO;
+     self.clearsSelectionOnViewWillAppear = YES;
     
     // Register cell classes
     [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass(AppCell.class) bundle:nil] forCellWithReuseIdentifier:kAppCell];
@@ -46,9 +47,10 @@ static void *KVO_Apps = &KVO_Apps;
     [self setupLayout];
     
     [[AppManager sharedManager] addObserver:self forKeyPath:propSel(apps) options:NSKeyValueObservingOptionNew context:KVO_Apps];
+    
 }
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark - <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -73,7 +75,19 @@ static void *KVO_Apps = &KVO_Apps;
     return cell;
 }
 
-#pragma mark <UICollectionViewDelegate>
+#pragma mark - <UICollectionViewDelegate>
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    App *app = [self.apps objectAtIndex:indexPath.item];
+    
+    if (app) {
+        AppController *controller = [[AppController alloc] initWithApp:app];
+        
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+    
+}
 
 #pragma mark -
 

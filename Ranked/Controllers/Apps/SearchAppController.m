@@ -169,19 +169,22 @@
 
 - (void)didTapDone {
     
+    if (NSThread.isMainThread == NO) {
+        [self performSelectorOnMainThread:@selector(didTapDone) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    
     if (self.selectedIndex == nil) {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         
         return;
     }
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        App *app = [self.searchResults objectAtIndex:self.selectedIndex.row];
-        
-        [[AppManager sharedManager] addApp:app];
-        
-        [self.navigationController popViewControllerAnimated:YES];
-    });
+    App *app = [self.searchResults objectAtIndex:self.selectedIndex.row];
+    
+    [[AppManager sharedManager] addApp:app];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark -

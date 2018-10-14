@@ -15,6 +15,20 @@ NSString *const kAppCell = @"com.dezinezync.ranked.cell.app";
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    self.selectedBackgroundView = [[UIView alloc] initWithFrame:self.bounds];
+    self.selectedBackgroundView.backgroundColor = [self.tintColor colorWithAlphaComponent:0.3f];
+    self.selectedBackgroundView.alpha = 0;
+    
+    self.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)setSelected:(BOOL)selected {
+    
+    [super setSelected:selected];
+    
+    self.selectedBackgroundView.alpha = selected ? 1.f : 0.f;
+    
 }
 
 @end

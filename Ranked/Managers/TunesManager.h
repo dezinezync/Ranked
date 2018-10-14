@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "App.h"
+#import "Country.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TunesManager : NSObject
 
 + (instancetype)sharedManager;
+
+@property (nonatomic, strong, readonly) NSArray <Country *> *countries;
 
 - (NSURLSessionTask *)searchForApp:(NSString *)title success:(void(^ _Nullable)(NSArray <App *> * responseObject))successCB error:(void(^ _Nullable)(NSError *error))errorCB;
 
