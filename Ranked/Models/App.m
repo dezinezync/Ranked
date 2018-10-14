@@ -43,6 +43,14 @@
 - (void)setup {
     self.artwork = @{};
     self.countries = @[@"AU", @"AT", @"CA", @"CN", @"FR", @"DE", @"GB", @"HK", @"IN", @"IT", @"JP", @"MX", @"NL", @"SG", @"US"];
+    
+    NSMutableDictionary *dict = @{}.mutableCopy;
+    for (NSString *code in self.countries) {
+        dict[code] = @0;
+    }
+    
+    self.rankings = dict;
+    
 }
 
 #pragma mark - <NSCoding>
@@ -58,6 +66,7 @@
     [aCoder encodeObject:self.name forKey:propSel(name)];
     [aCoder encodeObject:self.url forKey:propSel(url)];
     [aCoder encodeObject:self.countries forKey:propSel(countries)];
+    [aCoder encodeObject:self.rankings forKey:propSel(rankings)];
     
 }
 
@@ -73,6 +82,7 @@
         self.name = [aDecoder decodeObjectForKey:propSel(name)];
         self.url = [aDecoder decodeObjectForKey:propSel(url)];
         self.countries = [aDecoder decodeObjectForKey:propSel(countries)];
+        self.rankings = [aDecoder decodeObjectForKey:propSel(rankings)];
     }
     
     return self;
@@ -198,6 +208,10 @@ if (self.<#keyname#> != nil) {
         [dict setObject:self.countries forKey:propSel(countries)];
     }
     
+    if (self.rankings) {
+        [dict setObject:self.rankings forKey:propSel(rankings)];
+    }
+    
     return dict.copy;
     
 }
@@ -230,6 +244,16 @@ if (self.<#keyname#> != nil) {
 }
 
 #pragma mark - Setter Overrides
+
+- (void)setRankings:(NSDictionary<NSString *,NSNumber *> *)rankings {
+    
+    if (_rankings != nil) {
+        self.oldRankings = [_rankings copy];
+    }
+    
+    _rankings = rankings;
+    
+}
 
 - (void)setCountries:(NSArray<NSString *> *)countries {
     

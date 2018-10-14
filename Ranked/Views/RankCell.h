@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Country.h"
+
+#import "App.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +21,7 @@ extern NSString *const kRankCell;
 @property (weak, nonatomic) IBOutlet UILabel *changeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rankLabel;
 
-- (void)configure:(Country *)country;
+- (void)configure:(Country *)country app:(App *)app;
 
 @end
 

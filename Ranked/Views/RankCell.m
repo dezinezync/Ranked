@@ -33,13 +33,30 @@ NSString *const kRankCell = @"com.ranked.cell.rank";
     self.changeLabel.text = nil;
 }
 
-- (void)configure:(Country *)country {
+- (void)configure:(Country *)country app:(nonnull App *)app {
     self.flagView.image = country.flagImage;
     self.countryLabel.text = country.name;
-    self.rankLabel.text = @"0";
     
-    self.changeLabel.text = @"0";
-    self.changeLabel.textColor = UIColor.lightGrayColor;
+    NSNumber *current = (app.rankings[country.shortCode] ?: @0);
+    NSNumber *old = (app.oldRankings[country.shortCode] ?: @0);
+    
+    self.rankLabel.text = [current stringValue];
+    
+    NSInteger change = current.integerValue - old.integerValue;
+    
+    self.changeLabel.text = [@(change) stringValue];
+    
+    if (change == 0) {
+        self.changeLabel.textColor = UIColor.lightGrayColor;
+    }
+    else if (change > 0) {
+        self.changeLabel.textColor = UIColor.greenColor;
+    }
+    else {
+        self.changeLabel.textColor = UIColor.redColor;
+    }
+    
+    
 }
 
 @end

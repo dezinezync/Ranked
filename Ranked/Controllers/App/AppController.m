@@ -99,7 +99,7 @@
     // Configure the cell...
     Country *country = [[self.app.trackedCountries allObjects] objectAtIndex:indexPath.row];
     if (country) {
-        [cell configure:country];
+        [cell configure:country app:self.app];
     }
     
     return cell;

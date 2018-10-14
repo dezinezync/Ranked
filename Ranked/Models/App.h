@@ -26,6 +26,13 @@ NS_ASSUME_NONNULL_BEGIN
 // this allows for different apps to have different trackings.
 @property (nonatomic, strong) NSArray <NSString *> * countries;
 
+// this dict is persisted to disk
+@property (nonatomic, strong) NSDictionary <NSString *, NSNumber *> *rankings;
+
+// this is not persisted to the disk. It's only avilable during the lifecycle of the app.
+// when rankings are reloaded, the value from rankings is assigned to this list
+@property (nonatomic, strong) NSDictionary <NSString *, NSNumber *> *oldRankings;
+
 // same as the above but is mapped to a country object.The object is weakly held.
 // do not mutate this directly.
 @property (nonatomic, strong) NSPointerArray *trackedCountries;
