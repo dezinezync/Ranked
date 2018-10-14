@@ -26,6 +26,14 @@ NSString * countryFlagEmoji (NSString *shortCode) {
                                   encoding:NSUTF32LittleEndianStringEncoding];
 }
 
+@interface Country ()
+
+@property (class, nonatomic, strong) NSCache *flagCache;
+
+@end
+
+static NSCache * _flagCache = nil;
+
 @implementation Country
 
 + (instancetype)instanceFromDictionary:(NSDictionary *)dict forCode:(nonnull NSString *)code {
@@ -125,11 +133,29 @@ NSString * countryFlagEmoji (NSString *shortCode) {
 
 - (UIImage *)flagImage {
  
-    NSString *flag = countryFlagEmoji(self.shortCode);
-    UIImage *image = [flag imageWithSide:40.f];
+    UIImage *image = [[Country flagCache] objectForKey:self.shortCode];
+ 
+    if (image == nil) {
+        NSString *flag = countryFlagEmoji(self.shortCode);
+        
+        image = [flag imageWithSide:40.f];
+        
+        [[Country flagCache] setObject:image forKey:self.shortCode];
+    }
     
     return image;
     
+}
+
+#pragma mark - Class Properties
+
++ (NSCache *)flagCache {
+    if (_flagCache == nil) {
+        _flagCache = [[NSCache alloc] init];
+        _flagCache.name = @"com.ranked.cache.flagImages";
+        _flagCache.totalCostLimit = 100;
+    }
+    return _flagCache;
 }
 
 @end
