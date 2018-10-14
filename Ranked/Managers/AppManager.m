@@ -106,4 +106,12 @@ static AppManager * sharedInstance = nil;
     
 }
 
+#pragma mark -
+
+- (void)save {
+    
+    [self setApps:self.apps];
+    
+}
+
 @end

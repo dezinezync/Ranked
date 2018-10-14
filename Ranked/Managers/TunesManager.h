@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "App.h"
+#import "AppManager.h"
 #import "Country.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -21,7 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedManager;
 
-@property (nonatomic, strong, readonly) NSArray <Country *> *countries;
+@property (nonatomic, strong, readonly) NSOrderedSet <Country *> *countries;
+
+- (Country *)countryForCode:(NSString *)shortCode;
+
+#pragma mark - Search
 
 - (NSURLSessionTask *)searchForApp:(NSString *)title success:(void(^ _Nullable)(NSArray <App *> * responseObject))successCB error:(void(^ _Nullable)(NSError *error))errorCB;
 

@@ -9,6 +9,8 @@
 #import "App.h"
 #import "macros.h"
 
+#import "TunesManager.h"
+
 @implementation App
 
 + (instancetype)instanceFromDictionary:(NSDictionary *)dict {
@@ -22,6 +24,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     
     if (self = [super init]) {
+        [self setup];
         [self setValuesForKeysWithDictionary:dict];
     }
     
@@ -31,10 +34,15 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.artwork = @{};
+        [self setup];
     }
     
     return self;
+}
+
+- (void)setup {
+    self.artwork = @{};
+    self.countries = @[@"AU", @"AT", @"CA", @"CN", @"FR", @"DE", @"GB", @"HK", @"IN", @"IT", @"JP", @"MX", @"NL", @"SG", @"US"];
 }
 
 #pragma mark - <NSCoding>
@@ -49,6 +57,7 @@
     [aCoder encodeObject:self.genreName forKey:propSel(genreName)];
     [aCoder encodeObject:self.name forKey:propSel(name)];
     [aCoder encodeObject:self.url forKey:propSel(url)];
+    [aCoder encodeObject:self.countries forKey:propSel(countries)];
     
 }
 
@@ -63,6 +72,7 @@
         self.genreName = [aDecoder decodeObjectForKey:propSel(genreName)];
         self.name = [aDecoder decodeObjectForKey:propSel(name)];
         self.url = [aDecoder decodeObjectForKey:propSel(url)];
+        self.countries = [aDecoder decodeObjectForKey:propSel(countries)];
     }
     
     return self;
@@ -184,6 +194,10 @@ if (self.<#keyname#> != nil) {
         }
     }
     
+    if (self.countries) {
+        [dict setObject:self.countries forKey:propSel(countries)];
+    }
+    
     return dict.copy;
     
 }
@@ -213,6 +227,29 @@ if (self.<#keyname#> != nil) {
     }
     
     return NO;
+}
+
+#pragma mark - Setter Overrides
+
+- (void)setCountries:(NSArray<NSString *> *)countries {
+    
+    NSPointerArray *mapped = [NSPointerArray weakObjectsPointerArray];
+    
+    TunesManager *manager = [TunesManager sharedManager];
+    
+    for (NSString *code in countries) {
+        
+        Country *country = [manager countryForCode:code];
+        
+        if (country) {
+            [mapped addPointer:(__bridge void * _Nullable)(country)];
+        }
+        
+    }
+    
+    self.trackedCountries = mapped;
+    
+    _countries = countries;
 }
 
 @end

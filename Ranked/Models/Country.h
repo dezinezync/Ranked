@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSString+UIImage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDictionary:(NSDictionary *)dict forCode:(NSString *)code;
 
 - (NSDictionary *)dictionaryRepresentation;
+
+- (UIImage *)flagImage;
 
 @end
 

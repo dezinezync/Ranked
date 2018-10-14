@@ -9,6 +9,23 @@
 #import "Country.h"
 #import "macros.h"
 
+NSString * countryFlagEmoji (NSString *shortCode) {
+    if(shortCode.length != 2) {
+        @throw [[NSException alloc] initWithName:NSInvalidArgumentException reason:@"Expecting ISO country code" userInfo:nil];
+    }
+    
+    int base = 0x1F1E6 - 0x41;
+    
+    wchar_t bytes[2] = {
+        base + [shortCode characterAtIndex:0],
+        base + [shortCode characterAtIndex:1]
+    };
+    
+    return [[NSString alloc] initWithBytes:bytes
+                                    length:shortCode.length * sizeof(wchar_t)
+                                  encoding:NSUTF32LittleEndianStringEncoding];
+}
+
 @implementation Country
 
 + (instancetype)instanceFromDictionary:(NSDictionary *)dict forCode:(nonnull NSString *)code {
@@ -104,5 +121,15 @@
     return NO;
 }
 
+#pragma mark -
+
+- (UIImage *)flagImage {
+ 
+    NSString *flag = countryFlagEmoji(self.shortCode);
+    UIImage *image = [flag imageWithSide:40.f];
+    
+    return image;
+    
+}
 
 @end

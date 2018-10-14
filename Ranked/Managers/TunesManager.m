@@ -14,7 +14,7 @@ static TunesManager * sharedInstance = nil;
 
 @interface TunesManager ()
 
-@property (nonatomic, strong, readwrite) NSArray <Country *> *countries;
+@property (nonatomic, strong, readwrite) NSOrderedSet <Country *> *countries;
 
 @end
 
@@ -113,7 +113,7 @@ static TunesManager * sharedInstance = nil;
 
 #pragma mark - Getters
 
-- (NSArray <Country *> *)countries {
+- (NSOrderedSet <Country *> *)countries {
     
     if (!_countries) {
         
@@ -134,13 +134,44 @@ static TunesManager * sharedInstance = nil;
                 
             }];
             
-            _countries = members.copy;
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedCompare:)];
+            NSArray *sorted = [members sortedArrayUsingDescriptors:@[sortDescriptor]];
+            
+            // sort using shortCode
+            NSOrderedSet *set = [[NSOrderedSet alloc] initWithArray:sorted];
+            
+            _countries = set;
             
         }
         
     }
     
     return _countries;
+    
+}
+
+- (Country *)countryForCode:(NSString *)shortCode {
+    
+    if (shortCode == nil || shortCode.length != 2) {
+#ifdef DEBUG
+        @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"shortCode should be of 2 characters" userInfo:nil];
+#else
+        return nil;
+#endif
+    }
+    
+    __block Country *country = nil;
+    
+    [self.countries enumerateObjectsUsingBlock:^(Country * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+       
+        if ([obj.shortCode isEqualToString:shortCode]) {
+            country = obj;
+            *stop = YES;
+        }
+        
+    }];
+    
+    return country;
     
 }
 

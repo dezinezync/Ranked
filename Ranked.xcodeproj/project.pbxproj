@@ -11,6 +11,10 @@
 		F02DC65D21734CA500F098C9 /* countries.json in Resources */ = {isa = PBXBuildFile; fileRef = F02DC65C21734CA500F098C9 /* countries.json */; };
 		F02DC66021734D1500F098C9 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = F02DC65F21734D1500F098C9 /* Country.m */; };
 		F02DC664217354B000F098C9 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F02DC663217354B000F098C9 /* AppController.m */; };
+		F02DC6672173574400F098C9 /* CountriesController.m in Sources */ = {isa = PBXBuildFile; fileRef = F02DC6662173574400F098C9 /* CountriesController.m */; };
+		F02DC66C21735B1C00F098C9 /* NSString+UIImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F02DC66B21735B1C00F098C9 /* NSString+UIImage.m */; };
+		F02DC670217382E700F098C9 /* RankCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F02DC66E217382E700F098C9 /* RankCell.m */; };
+		F02DC671217382E700F098C9 /* RankCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F02DC66F217382E700F098C9 /* RankCell.xib */; };
 		F04D51D02168A9E4008D2FC8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51CF2168A9E4008D2FC8 /* AppDelegate.m */; };
 		F04D51D82168A9E6008D2FC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F04D51D72168A9E6008D2FC8 /* Assets.xcassets */; };
 		F04D51DB2168A9E6008D2FC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F04D51D92168A9E6008D2FC8 /* LaunchScreen.storyboard */; };
@@ -48,6 +52,13 @@
 		F02DC65F21734D1500F098C9 /* Country.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Country.m; sourceTree = "<group>"; };
 		F02DC662217354B000F098C9 /* AppController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		F02DC663217354B000F098C9 /* AppController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		F02DC6652173574400F098C9 /* CountriesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CountriesController.h; sourceTree = "<group>"; };
+		F02DC6662173574400F098C9 /* CountriesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CountriesController.m; sourceTree = "<group>"; };
+		F02DC66A21735B1C00F098C9 /* NSString+UIImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+UIImage.h"; sourceTree = "<group>"; };
+		F02DC66B21735B1C00F098C9 /* NSString+UIImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+UIImage.m"; sourceTree = "<group>"; };
+		F02DC66D217382E700F098C9 /* RankCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RankCell.h; sourceTree = "<group>"; };
+		F02DC66E217382E700F098C9 /* RankCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RankCell.m; sourceTree = "<group>"; };
+		F02DC66F217382E700F098C9 /* RankCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RankCell.xib; sourceTree = "<group>"; };
 		F04D51CB2168A9E4008D2FC8 /* Ranked.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ranked.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F04D51CE2168A9E4008D2FC8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F04D51CF2168A9E4008D2FC8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -105,8 +116,19 @@
 			children = (
 				F02DC662217354B000F098C9 /* AppController.h */,
 				F02DC663217354B000F098C9 /* AppController.m */,
+				F02DC6652173574400F098C9 /* CountriesController.h */,
+				F02DC6662173574400F098C9 /* CountriesController.m */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		F02DC66921735B0700F098C9 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				F02DC66A21735B1C00F098C9 /* NSString+UIImage.h */,
+				F02DC66B21735B1C00F098C9 /* NSString+UIImage.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		F04D51C22168A9E4008D2FC8 = {
@@ -135,6 +157,7 @@
 				F0B17A6721692E0600F3E88C /* Models */,
 				F04D51FB2168AC03008D2FC8 /* Views */,
 				F04D52072168B100008D2FC8 /* Managers */,
+				F02DC66921735B0700F098C9 /* Categories */,
 				F04D51F42168AA40008D2FC8 /* Supporting Files */,
 			);
 			path = Ranked;
@@ -206,6 +229,9 @@
 				F04D520B2168B616008D2FC8 /* AppSearchCell.h */,
 				F04D520C2168B616008D2FC8 /* AppSearchCell.m */,
 				F04D520D2168B616008D2FC8 /* AppSearchCell.xib */,
+				F02DC66D217382E700F098C9 /* RankCell.h */,
+				F02DC66E217382E700F098C9 /* RankCell.m */,
+				F02DC66F217382E700F098C9 /* RankCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -321,6 +347,7 @@
 				F04D51FA2168AA90008D2FC8 /* AppsController.xib in Resources */,
 				F04D51D82168A9E6008D2FC8 /* Assets.xcassets in Resources */,
 				F04D520F2168B616008D2FC8 /* AppSearchCell.xib in Resources */,
+				F02DC671217382E700F098C9 /* RankCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F02DC6672173574400F098C9 /* CountriesController.m in Sources */,
 				F04D51DE2168A9E6008D2FC8 /* main.m in Sources */,
 				F04D520E2168B616008D2FC8 /* AppSearchCell.m in Sources */,
 				F04D52032168AD33008D2FC8 /* AppsController+Actions.m in Sources */,
@@ -345,7 +373,9 @@
 				F04D520A2168B112008D2FC8 /* TunesManager.m in Sources */,
 				F0B17A6A21692E1300F3E88C /* App.m in Sources */,
 				F04D51D02168A9E4008D2FC8 /* AppDelegate.m in Sources */,
+				F02DC670217382E700F098C9 /* RankCell.m in Sources */,
 				F02DC664217354B000F098C9 /* AppController.m in Sources */,
+				F02DC66C21735B1C00F098C9 /* NSString+UIImage.m in Sources */,
 				F04D51F92168AA90008D2FC8 /* AppsController.m in Sources */,
 				F02DC66021734D1500F098C9 /* Country.m in Sources */,
 				F04D52062168ADC3008D2FC8 /* SearchAppController.m in Sources */,

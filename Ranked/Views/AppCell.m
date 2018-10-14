@@ -8,7 +8,7 @@
 
 #import "AppCell.h"
 
-NSString *const kAppCell = @"com.dezinezync.ranked.cell.app";
+NSString *const kAppCell = @"com.ranked.cell.app";
 
 @implementation AppCell
 

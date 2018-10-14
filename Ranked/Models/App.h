@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Country.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *genreName;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSURL *url;
+
+// list of country codes for which the app tracks it's rankings.
+// this allows for different apps to have different trackings.
+@property (nonatomic, strong) NSArray <NSString *> * countries;
+
+// same as the above but is mapped to a country object.The object is weakly held.
+// do not mutate this directly.
+@property (nonatomic, strong) NSPointerArray *trackedCountries;
 
 + (instancetype)instanceFromDictionary:(NSDictionary *)dict;
 
