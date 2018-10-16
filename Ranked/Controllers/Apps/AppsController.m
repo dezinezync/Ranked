@@ -68,8 +68,7 @@ static void *KVO_Apps = &KVO_Apps;
     App *app = [self.apps objectAtIndex:indexPath.item];
     
     if (app != nil) {
-        cell.appTitle.text = app.name;
-        cell.category.text = app.genreName;
+        [cell configure:app];
     }
     
     return cell;
@@ -103,7 +102,7 @@ static void *KVO_Apps = &KVO_Apps;
     CGFloat width = MIN(self.collectionView.bounds.size.width, self.collectionView.contentSize.width);
     CGFloat columnWidth = floor((width - 2.f) / 3.f);
     
-    [layout setItemSize:CGSizeMake(columnWidth, columnWidth + (columnWidth * 0.2f))];
+    layout.itemSize = CGSizeMake(columnWidth, columnWidth + 24.f);
     
 }
 

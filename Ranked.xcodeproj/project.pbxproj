@@ -29,6 +29,8 @@
 		F04D520A2168B112008D2FC8 /* TunesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D52092168B112008D2FC8 /* TunesManager.m */; };
 		F04D520E2168B616008D2FC8 /* AppSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D520C2168B616008D2FC8 /* AppSearchCell.m */; };
 		F04D520F2168B616008D2FC8 /* AppSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F04D520D2168B616008D2FC8 /* AppSearchCell.xib */; };
+		F083B9C521765720008C7C6B /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F083B9C421765720008C7C6B /* ImageCache.m */; };
+		F083B9CB21765830008C7C6B /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = F083B9CA21765830008C7C6B /* NSString+MD5.m */; };
 		F088F39D2169DF8300F292C0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F088F39B2169DF8200F292C0 /* InfoPlist.strings */; };
 		F088F3A02169DF8300F292C0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F088F39E2169DF8300F292C0 /* Localizable.strings */; };
 		F0B17A6621692D9300F3E88C /* AppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B17A6521692D9300F3E88C /* AppManager.m */; };
@@ -84,6 +86,10 @@
 		F04D520B2168B616008D2FC8 /* AppSearchCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppSearchCell.h; sourceTree = "<group>"; };
 		F04D520C2168B616008D2FC8 /* AppSearchCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppSearchCell.m; sourceTree = "<group>"; };
 		F04D520D2168B616008D2FC8 /* AppSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppSearchCell.xib; sourceTree = "<group>"; };
+		F083B9C321765720008C7C6B /* ImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
+		F083B9C421765720008C7C6B /* ImageCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
+		F083B9C921765830008C7C6B /* NSString+MD5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		F083B9CA21765830008C7C6B /* NSString+MD5.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		F088F39C2169DF8200F292C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F088F39F2169DF8300F292C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F0B17A6421692D9300F3E88C /* AppManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppManager.h; sourceTree = "<group>"; };
@@ -127,6 +133,8 @@
 			children = (
 				F02DC66A21735B1C00F098C9 /* NSString+UIImage.h */,
 				F02DC66B21735B1C00F098C9 /* NSString+UIImage.m */,
+				F083B9C921765830008C7C6B /* NSString+MD5.h */,
+				F083B9CA21765830008C7C6B /* NSString+MD5.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -158,6 +166,7 @@
 				F04D51FB2168AC03008D2FC8 /* Views */,
 				F04D52072168B100008D2FC8 /* Managers */,
 				F02DC66921735B0700F098C9 /* Categories */,
+				F083B9C22176570C008C7C6B /* Utilities */,
 				F04D51F42168AA40008D2FC8 /* Supporting Files */,
 			);
 			path = Ranked;
@@ -245,6 +254,15 @@
 				F0B17A6521692D9300F3E88C /* AppManager.m */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		F083B9C22176570C008C7C6B /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F083B9C321765720008C7C6B /* ImageCache.h */,
+				F083B9C421765720008C7C6B /* ImageCache.m */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		F0B17A6721692E0600F3E88C /* Models */ = {
@@ -369,6 +387,7 @@
 				F04D51DE2168A9E6008D2FC8 /* main.m in Sources */,
 				F04D520E2168B616008D2FC8 /* AppSearchCell.m in Sources */,
 				F04D52032168AD33008D2FC8 /* AppsController+Actions.m in Sources */,
+				F083B9CB21765830008C7C6B /* NSString+MD5.m in Sources */,
 				F04D51FF2168AC19008D2FC8 /* AppCell.m in Sources */,
 				F04D520A2168B112008D2FC8 /* TunesManager.m in Sources */,
 				F0B17A6A21692E1300F3E88C /* App.m in Sources */,
@@ -379,6 +398,7 @@
 				F04D51F92168AA90008D2FC8 /* AppsController.m in Sources */,
 				F02DC66021734D1500F098C9 /* Country.m in Sources */,
 				F04D52062168ADC3008D2FC8 /* SearchAppController.m in Sources */,
+				F083B9C521765720008C7C6B /* ImageCache.m in Sources */,
 				F0B17A6621692D9300F3E88C /* AppManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

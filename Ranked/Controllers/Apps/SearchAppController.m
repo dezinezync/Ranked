@@ -85,8 +85,9 @@
     // Configure the cell...
     App *obj = [self.searchResults objectAtIndex:indexPath.item];
 
-    cell.appTitle.text = obj.name;
-    cell.developerName.text = obj.developer;
+    if (obj) {
+        [cell configure:obj];
+    }
     
 #warning TODO: Implement App Icon image
     
@@ -126,7 +127,7 @@
     __block NSString *text = nil;
     
     // dispatch after 2 seconds giving the user time to complete their search input
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), TunesManager.sharedManager.queue, ^{
         
         // if there is an existing search task, cancel it
         if (self.searchTask != nil) {

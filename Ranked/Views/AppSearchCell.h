@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TunesManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +18,10 @@ extern NSString *const kAppSearchCell;
 @property (weak, nonatomic) IBOutlet UIImageView *appicon;
 @property (weak, nonatomic) IBOutlet UILabel *appTitle;
 @property (weak, nonatomic) IBOutlet UILabel *developerName;
+
+@property (weak, nonatomic) NSURLSessionTask *imageDownloadTask;
+
+- (void)configure:(App *)app;
 
 @end
 

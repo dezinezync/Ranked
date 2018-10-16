@@ -15,7 +15,9 @@ static TunesManager * sharedInstance = nil;
 @interface TunesManager ()
 
 @property (nonatomic, strong) NSURLSession *session;
-@property (nonatomic, strong) dispatch_queue_t queue;
+@property (nonatomic, strong, readwrite) dispatch_queue_t queue;
+
+@property (nonatomic, strong, readwrite) ImageCache *imageCache;
 
 @property (nonatomic, strong, readwrite) NSOrderedSet <Country *> *countries;
 
@@ -280,6 +282,17 @@ static TunesManager * sharedInstance = nil;
 
 #pragma mark - Getters
 
+- (ImageCache *)imageCache {
+    
+    if (_imageCache == nil) {
+        _imageCache = [[ImageCache alloc] init];
+        _imageCache.name = @"com.ranked.cache.imageCache";
+    }
+    
+    return _imageCache;
+    
+}
+
 - (NSOrderedSet <Country *> *)countries {
     
     if (!_countries) {
@@ -339,6 +352,77 @@ static TunesManager * sharedInstance = nil;
     }];
     
     return country;
+    
+}
+
+#pragma mark -
+
+- (NSURLSessionTask *)imageForURL:(NSURL *)url size:(CGSize)size success:(void (^)(UIImage * _Nullable))successCB error:(void (^)(NSError * _Nonnull))errorCB {
+    
+    if (url == nil) {
+        if (errorCB) {
+            NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:500 userInfo:@{NSURLErrorFailingURLStringErrorKey: url ?: @""}];
+            errorCB(error);
+        }
+        return nil;
+    }
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+    __block UIImage *image = nil;
+    
+    [self.imageCache objectforKey:url.absoluteString callback:^(UIImage * _Nullable obj) {
+       
+        image = obj;
+        
+        dispatch_semaphore_signal(semaphore);
+        
+    }];
+    
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    
+    if (image) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            successCB(image);
+        });
+        
+        return nil;
+    }
+    
+    NSURLSessionTask * task = [self.session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (error) {
+            
+            if (errorCB) {
+                errorCB(error);
+            }
+            
+            return;
+        }
+        
+        if (successCB == nil) {
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if (data != nil && [data length] > 4) {
+                image = [[UIImage alloc] initWithData:data scale:UIScreen.mainScreen.scale];
+                
+                if (image) {
+                    [self.imageCache setObject:image data:data forKey:url.absoluteString];
+                }
+            }
+            
+            successCB(image);
+            
+        });
+        
+    }];
+    
+    [task resume];
+    
+    return task;
     
 }
 

@@ -171,8 +171,6 @@ static void *KVO_App_Countries = &KVO_App_Countries;
         
         // Once all reports are available, this block is called
         
-        self.app.rankings = responseObjects.mutableCopy;
-        
         // this ensures that our visible cells get updated if the result was updated when the row wasn't visible.
         [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
         

@@ -9,6 +9,8 @@
 #import "Country.h"
 #import "macros.h"
 
+#import "TunesManager.h"
+
 NSString * countryFlagEmoji (NSString *shortCode) {
     if(shortCode.length != 2) {
         @throw [[NSException alloc] initWithName:NSInvalidArgumentException reason:@"Expecting ISO country code" userInfo:nil];
@@ -28,11 +30,7 @@ NSString * countryFlagEmoji (NSString *shortCode) {
 
 @interface Country ()
 
-@property (class, nonatomic, strong) NSCache *flagCache;
-
 @end
-
-static NSCache * _flagCache = nil;
 
 @implementation Country
 
@@ -133,33 +131,18 @@ static NSCache * _flagCache = nil;
 
 - (UIImage *)flagImage {
  
-    UIImage *image = [[Country flagCache] objectForKey:self.shortCode];
+    UIImage *image = [TunesManager.sharedManager.imageCache objectForKey:self.shortCode];
  
     if (image == nil) {
         NSString *flag = countryFlagEmoji(self.shortCode);
         
         image = [flag imageWithSide:40.f];
         
-        [[Country flagCache] setObject:image forKey:self.shortCode];
+        [TunesManager.sharedManager.imageCache setObject:image forKey:self.shortCode];
     }
     
     return image;
     
-}
-
-#pragma mark - Class Properties
-
-+ (NSCache *)flagCache {
-    if (_flagCache == nil) {
-        _flagCache = [[NSCache alloc] init];
-        _flagCache.name = @"com.ranked.cache.flagImages";
-        _flagCache.totalCostLimit = 100;
-    }
-    return _flagCache;
-}
-
-+ (void)setFlagCache:(NSCache *)flagCache {
-    _flagCache = flagCache;
 }
 
 @end

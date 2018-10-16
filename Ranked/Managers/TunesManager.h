@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "AppManager.h"
+#import "ImageCache.h"
 #import "App.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,6 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedManager;
 
 @property (nonatomic, strong, readonly) NSOrderedSet <Country *> *countries;
+
+@property (nonatomic, strong, readonly) ImageCache *imageCache;
+
+@property (nonatomic, strong, readonly) dispatch_queue_t queue;
 
 - (Country *)countryForCode:(NSString *)shortCode;
 
@@ -37,6 +42,13 @@ NS_ASSUME_NONNULL_BEGIN
  * The App's reference is used to update rankings directly for that app.
  */
 - (void)ranksForApp:(App *)app progress:(void(^ _Nullable)(NSString *shortCode, NSNumber * rank))progressCB success:(void(^ _Nullable)(NSDictionary <NSString *, NSNumber *> * responseObjects))successCB error:(void(^ _Nullable)(NSError *error))errorCB;
+
+#pragma mark - Images
+
+/**
+ *  If the size of the original image is smaller than the size parameter, it not resized.
+ */
+- (NSURLSessionTask *)imageForURL:(NSURL *)url size:(CGSize)size success:(void(^ _Nullable)(UIImage * _Nullable image))successCB error:(void(^ _Nullable)(NSError *error))errorCB;
 
 @end
 
