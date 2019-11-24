@@ -66,20 +66,10 @@ static void *KVO_Apps = &KVO_Apps;
     }];
     
     [AppCell registerOnCollectionView:self.collectionView];
-    [self setupLayout];
     
     [[AppManager sharedManager] addObserver:self forKeyPath:propSel(apps) options:NSKeyValueObservingOptionNew context:KVO_Apps];
     
     [self setupData];
-    
-}
-
-- (void)setupLayout {
- 
-    // this logic is only applicable for iPhones at the moment.
-#warning TODO: Implement Size Classes based logic for setting up the layout
-    
-    [self.collectionView layoutIfNeeded];
     
 }
 
