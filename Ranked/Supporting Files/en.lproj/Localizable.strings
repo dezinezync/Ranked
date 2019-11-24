@@ -4,9 +4,11 @@
 /* a11y title for the Add button */
 "controller.apps.new.title" = "New App";
 
-/* No comment provided by engineer. */
+/* Apps controller title. */
 "controller.apps.title" = "Your Apps";
 
-/* No comment provided by engineer. */
+/* search app title. */
 "controller.searchapp.title" = "Search for App";
 
+/* search app title. */
+"com.controller.searchapp.search.title" = "Search for App";
