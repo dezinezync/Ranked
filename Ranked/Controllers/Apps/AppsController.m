@@ -97,6 +97,28 @@ static void *KVO_Apps = &KVO_Apps;
     
 }
 
+- (UIContextMenuConfiguration *)collectionView:(UICollectionView *)collectionView contextMenuConfigurationForItemAtIndexPath:(NSIndexPath *)indexPath point:(CGPoint)point {
+    
+    UIContextMenuConfiguration *config = [UIContextMenuConfiguration configurationWithIdentifier:@"cell.action" previewProvider:nil actionProvider:^UIMenu * _Nullable(NSArray<UIMenuElement *> * _Nonnull suggestedActions) {
+       
+        UIAction * delete = [UIAction actionWithTitle:@"Delete" image:[UIImage systemImageNamed:@"trash"] identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
+            
+            App *app = [self.DS itemIdentifierForIndexPath:indexPath];
+            
+            [AppManager.sharedManager removeApp:app];
+            
+        }];
+        
+        delete.attributes = UIMenuElementAttributesDestructive;
+        
+        return [UIMenu menuWithTitle:@"App Actions" children:@[delete]];
+        
+    }];
+    
+    return config;
+    
+}
+
 #pragma mark - Accessors
 
 + (UICollectionViewCompositionalLayout *)layout {
