@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AppsController : UICollectionViewController
 
++ (UICollectionViewCompositionalLayout *)layout;
+
 @end
 
 NS_ASSUME_NONNULL_END

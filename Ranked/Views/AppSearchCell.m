@@ -12,6 +12,16 @@ NSString *const kAppSearchCell = @"com.dezinezync.ranked.cell.appsearch";
 
 @implementation AppSearchCell
 
++ (void)registerOnTableView:(UITableView *)tableView {
+    
+    if (tableView == nil) {
+        return;
+    }
+    
+    [tableView registerNib:[UINib nibWithNibName:NSStringFromClass(AppSearchCell.class) bundle:nil] forCellReuseIdentifier:kAppSearchCell];
+    
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

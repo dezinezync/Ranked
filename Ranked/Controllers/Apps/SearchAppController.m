@@ -22,6 +22,8 @@
 
 @property (nonatomic, copy) NSArray <App *> *searchResults;
 
+@property (nonatomic, strong) UITableViewDiffableDataSource *DS;
+
 @end
 
 @implementation SearchAppController
@@ -69,30 +71,49 @@
     
 }
 
-#pragma mark - <UITableViewDatasource>
+#pragma mark - Setups
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+- (void)setupTableView {
+    
+    [AppSearchCell registerOnTableView:self.tableView];
+    
+    self.DS = [[UITableViewDiffableDataSource alloc] initWithTableView:self.tableView cellProvider:^UITableViewCell * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, App * _Nonnull app) {
+       
+        AppSearchCell *cell = (AppSearchCell *)[tableView dequeueReusableCellWithIdentifier:kAppSearchCell forIndexPath:indexPath];
+            
+        // Configure the cell...
+        if (app) {
+            [cell configure:app];
+        }
+        
+        return cell;
+        
+    }];
+    
+    UISearchController *searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    searchController.searchBar.placeholder = NSLocalizedString(@"com.controller.searchapp.search.title", @"Search Bar Placeholder");
+    searchController.searchResultsUpdater = self;
+    searchController.hidesNavigationBarDuringPresentation = NO;
+    searchController.obscuresBackgroundDuringPresentation = NO;
+    
+    self.navigationItem.hidesSearchBarWhenScrolling = NO;
+    
+    self.navigationItem.searchController = searchController;
+    self.searchController = searchController;
+    
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.searchResults != nil ? self.searchResults.count : 0;
+- (void)setupData {
+    
+    NSDiffableDataSourceSnapshot *snapshot = [NSDiffableDataSourceSnapshot new];
+    [snapshot appendSectionsWithIdentifiers:@[@0]];
+    [snapshot appendItemsWithIdentifiers:self.searchResults != nil ? self.searchResults : @[]];
+    
+    [self.DS applySnapshot:snapshot animatingDifferences:YES];
+    
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    AppSearchCell *cell = (AppSearchCell *)[tableView dequeueReusableCellWithIdentifier:kAppSearchCell forIndexPath:indexPath];
-    
-    // Configure the cell...
-    App *obj = [self.searchResults objectAtIndex:indexPath.item];
-
-    if (obj) {
-        [cell configure:obj];
-    }
-    
-#warning TODO: Implement App Icon image
-    
-    return cell;
-}
+#pragma mark - <UITableViewDelegate>
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -127,7 +148,7 @@
     __block NSString *text = nil;
     
     // dispatch after 2 seconds giving the user time to complete their search input
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), TunesManager.sharedManager.queue, ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), TunesManager.sharedManager.queue, ^{
         
         // if there is an existing search task, cancel it
         if (self.searchTask != nil) {
@@ -144,15 +165,11 @@
         
         self.searchTask = [[TunesManager sharedManager] searchForApp:text success:^(NSArray <App *> * _Nonnull responseObject) {
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                self.searchResults = responseObject;
-                
-                self.selectedIndex = nil;
-                
-                [self.tableView reloadData];
-                
-            });
+            self.searchResults = responseObject;
+            
+            self.selectedIndex = nil;
+            
+            [self setupData];
             
         } error:^(NSError * _Nonnull error) {
            
@@ -186,25 +203,6 @@
     [[AppManager sharedManager] addApp:app];
     
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-#pragma mark -
-
-- (void)setupTableView {
-    
-    UISearchController *searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-    searchController.searchBar.placeholder = NSLocalizedString(@"com.controller.searchapp.search.title", @"Search Bar Placeholder");
-    searchController.searchResultsUpdater = self;
-    searchController.hidesNavigationBarDuringPresentation = NO;
-    searchController.dimsBackgroundDuringPresentation = NO;
-    
-    self.navigationItem.hidesSearchBarWhenScrolling = NO;
-    
-    self.navigationItem.searchController = searchController;
-    self.searchController = searchController;
-    
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(AppSearchCell.class) bundle:nil] forCellReuseIdentifier:kAppSearchCell];
-    
 }
 
 @end

@@ -21,6 +21,7 @@ static void *KVO_App_Countries = &KVO_App_Countries;
 }
 
 @property (nonatomic, weak) App *app;
+@property (nonatomic, strong) UITableViewDiffableDataSource *DS;
 
 @end
 
@@ -43,15 +44,7 @@ static void *KVO_App_Countries = &KVO_App_Countries;
     
     self.title = self.app.name;
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl sizeToFit];
-    
-    [refreshControl addTarget:self action:@selector(refreshData:) forControlEvents:UIControlEventValueChanged];
-    
-    self.tableView.refreshControl = refreshControl;
-    
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(RankCell.class) bundle:nil] forCellReuseIdentifier:kRankCell];
-    self.tableView.tableFooterView = [UIView new];
+    [self setupTableView];
     
     UIBarButtonItem *countries = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(didTapCountries)];
     countries.accessibilityValue = NSLocalizedString(@"controller.app.edit.title", @"a11y title for the Edit button");
@@ -97,27 +90,47 @@ static void *KVO_App_Countries = &KVO_App_Countries;
     
 }
 
-#pragma mark - Table view data source
+#pragma mark - Setups
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+- (void)setupTableView {
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl sizeToFit];
+    
+    [refreshControl addTarget:self action:@selector(refreshData:) forControlEvents:UIControlEventValueChanged];
+    
+    self.tableView.refreshControl = refreshControl;
+    
+    [RankCell registerOnTableView:self.tableView];
+    self.tableView.tableFooterView = [UIView new];
+    
+    self.DS = [[UITableViewDiffableDataSource alloc] initWithTableView:self.tableView cellProvider:^UITableViewCell * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, NSString *_Nonnull countryIdentifier) {
+        
+        RankCell *cell = [tableView dequeueReusableCellWithIdentifier:kRankCell forIndexPath:indexPath];
+        
+         Country *country = [[self.app.trackedCountries allObjects] objectAtIndex:indexPath.row];
+        
+        // Configure the cell...
+        if (country) {
+            [cell configure:country app:self.app];
+        }
+        
+        return cell;
+        
+    }];
+    
+    [self setupData];
+    
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.app.countries.count;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    RankCell *cell = [tableView dequeueReusableCellWithIdentifier:kRankCell forIndexPath:indexPath];
+- (void)setupData {
     
-    // Configure the cell...
-    Country *country = [[self.app.trackedCountries allObjects] objectAtIndex:indexPath.row];
-    if (country) {
-        [cell configure:country app:self.app];
-    }
+    NSDiffableDataSourceSnapshot *snapshot = [NSDiffableDataSourceSnapshot new];
+    [snapshot appendSectionsWithIdentifiers:@[@0]];
+    [snapshot appendItemsWithIdentifiers:self.app.countries.objectEnumerator.allObjects];
     
-    return cell;
+    [self.DS applySnapshot:snapshot animatingDifferences:YES];
+    
 }
 
 #pragma mark - Actions
@@ -172,7 +185,22 @@ static void *KVO_App_Countries = &KVO_App_Countries;
         // Once all reports are available, this block is called
         
         // this ensures that our visible cells get updated if the result was updated when the row wasn't visible.
-        [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
+        NSDiffableDataSourceSnapshot *snapshot = self.DS.snapshot;
+        
+        NSMutableArray *reloadIdentifiers = [NSMutableArray arrayWithCapacity:self.tableView.indexPathsForVisibleRows.count];
+        
+        for (NSIndexPath *indexPath in self.tableView.indexPathsForVisibleRows) {
+            id object = [self.DS itemIdentifierForIndexPath:indexPath];
+            
+            if (object) {
+                [reloadIdentifiers addObject:object];
+            }
+            
+        }
+        
+        [snapshot reloadItemsWithIdentifiers:reloadIdentifiers];
+        
+        [self.DS applySnapshot:snapshot animatingDifferences:YES];
         
         [AppManager.sharedManager save];
         
@@ -194,7 +222,7 @@ static void *KVO_App_Countries = &KVO_App_Countries;
         && object == self.app
         && context == KVO_App_Countries) {
         
-        [self.tableView reloadData];
+        [self setupData];
         [self getData];
         
     }

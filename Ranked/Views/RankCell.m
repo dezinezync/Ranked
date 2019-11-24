@@ -12,6 +12,12 @@ NSString *const kRankCell = @"com.ranked.cell.rank";
 
 @implementation RankCell
 
++ (void)registerOnTableView:(UITableView *)tableView {
+    
+    [tableView registerNib:[UINib nibWithNibName:NSStringFromClass(RankCell.class) bundle:nil] forCellReuseIdentifier:kRankCell];
+    
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
@@ -53,13 +59,13 @@ NSString *const kRankCell = @"com.ranked.cell.rank";
     self.changeLabel.text = change == 0 ? nil : [@(change) stringValue];
     
     if (change == 0) {
-        self.changeLabel.textColor = UIColor.lightGrayColor;
+        self.changeLabel.textColor = UIColor.secondaryLabelColor;
     }
     else if (change > 0) {
-        self.changeLabel.textColor = UIColor.greenColor;
+        self.changeLabel.textColor = UIColor.systemGreenColor;
     }
     else {
-        self.changeLabel.textColor = UIColor.redColor;
+        self.changeLabel.textColor = UIColor.systemRedColor;
     }
     
 }

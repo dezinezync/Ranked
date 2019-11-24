@@ -12,15 +12,29 @@ NSString *const kAppCell = @"com.ranked.cell.app";
 
 @implementation AppCell
 
++ (void)registerOnCollectionView:(UICollectionView *)collectionView {
+    
+    if (collectionView == nil) {
+        return;
+    }
+    
+    [collectionView registerNib:[UINib nibWithNibName:NSStringFromClass(AppCell.class) bundle:nil] forCellWithReuseIdentifier:kAppCell];
+    
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.stackView.translatesAutoresizingMaskIntoConstraints = NO;
     
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.imageView.bounds cornerRadius:9.428571429f];
     
     CAShapeLayer *maskLayer = [CAShapeLayer layer];
     maskLayer.frame = self.imageView.bounds;
     maskLayer.path = path.CGPath;
+    maskLayer.cornerCurve = kCACornerCurveContinuous;
     
     self.imageView.layer.mask = maskLayer;
     
@@ -28,7 +42,7 @@ NSString *const kAppCell = @"com.ranked.cell.app";
     self.selectedBackgroundView.backgroundColor = [self.tintColor colorWithAlphaComponent:0.3f];
     self.selectedBackgroundView.alpha = 0;
     
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor systemBackgroundColor];
 }
 
 - (void)setSelected:(BOOL)selected {
@@ -79,6 +93,20 @@ NSString *const kAppCell = @"com.ranked.cell.app";
     
     _imageDownloadTask = imageDownloadTask;
     
+}
+
+- (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
+
+    UICollectionViewLayoutAttributes *fitting = [super preferredLayoutAttributesFittingAttributes:layoutAttributes];
+
+    CGRect frame = fitting.frame;
+    frame.size.height = [self.stackView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    frame.size.height += 24.f;
+
+    fitting.frame = frame;
+
+    return fitting;
+
 }
 
 @end
