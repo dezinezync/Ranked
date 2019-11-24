@@ -134,6 +134,7 @@ static void *KVO_Apps = &KVO_Apps;
     
     NSCollectionLayoutSection * section = [NSCollectionLayoutSection sectionWithGroup:group];
     section.interGroupSpacing = 1.f;
+    section.contentInsets = NSDirectionalEdgeInsetsMake(12.f, 0.f, 12.f, 0.f);
     
     UICollectionViewCompositionalLayout * layout = [[UICollectionViewCompositionalLayout alloc] initWithSection:section];
     

@@ -42,7 +42,15 @@ NSString *const kAppCell = @"com.ranked.cell.app";
     self.selectedBackgroundView.backgroundColor = [self.tintColor colorWithAlphaComponent:0.3f];
     self.selectedBackgroundView.alpha = 0;
     
-    self.backgroundColor = [UIColor systemBackgroundColor];
+    self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+        
+        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+            return UIColor.systemBackgroundColor;
+        }
+        
+        return UIColor.secondarySystemBackgroundColor;
+        
+    }];
 }
 
 - (void)setSelected:(BOOL)selected {

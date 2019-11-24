@@ -77,6 +77,8 @@
     
     [AppSearchCell registerOnTableView:self.tableView];
     
+    self.tableView.tableFooterView = [UIView new];
+    
     self.DS = [[UITableViewDiffableDataSource alloc] initWithTableView:self.tableView cellProvider:^UITableViewCell * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, App * _Nonnull app) {
        
         AppSearchCell *cell = (AppSearchCell *)[tableView dequeueReusableCellWithIdentifier:kAppSearchCell forIndexPath:indexPath];
