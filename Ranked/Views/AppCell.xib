@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,8 +17,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="267" height="238"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" ambiguous="YES" axis="vertical" alignment="center" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cDR-H4-KLU">
-                        <rect key="frame" x="12" y="12" width="243" height="180"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" ambiguous="YES" axis="vertical" alignment="center" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cDR-H4-KLU">
+                        <rect key="frame" x="12" y="12" width="243" height="214"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6cn-eE-YtP">
                                 <rect key="frame" x="99.5" y="0.0" width="44" height="44"/>
@@ -29,32 +27,28 @@
                                     <constraint firstAttribute="width" priority="999" constant="44" id="rp8-FC-zdC"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="751" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCn-ON-kRP">
-                                <rect key="frame" x="0.0" y="52.5" width="243" height="142.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCn-ON-kRP">
+                                <rect key="frame" x="100" y="52.5" width="43.5" height="142.5"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gyu-AX-lbK">
-                                <rect key="frame" x="0.0" y="196" width="243" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="252" verticalCompressionResistancePriority="748" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gyu-AX-lbK">
+                                <rect key="frame" x="103" y="196" width="37.5" height="18"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="Gyu-AX-lbK" firstAttribute="width" secondItem="cDR-H4-KLU" secondAttribute="width" id="8pL-cq-s3a"/>
-                            <constraint firstItem="YCn-ON-kRP" firstAttribute="width" secondItem="cDR-H4-KLU" secondAttribute="width" id="FGb-Da-iTA"/>
-                        </constraints>
                     </stackView>
                 </subviews>
             </view>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="cDR-H4-KLU" secondAttribute="bottom" constant="12" id="0PZ-eD-Wpe"/>
-                <constraint firstAttribute="trailing" secondItem="cDR-H4-KLU" secondAttribute="trailing" constant="12" id="PpE-xP-TA7"/>
-                <constraint firstItem="cDR-H4-KLU" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="12" id="Ydg-Mg-yPw"/>
-                <constraint firstItem="cDR-H4-KLU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="12" id="bSn-9z-Mi6"/>
+                <constraint firstAttribute="trailing" secondItem="cDR-H4-KLU" secondAttribute="trailing" constant="12" id="EHW-En-rbK"/>
+                <constraint firstAttribute="bottom" secondItem="cDR-H4-KLU" secondAttribute="bottom" constant="12" id="IzJ-lH-MPd"/>
+                <constraint firstItem="cDR-H4-KLU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="12" id="Ra0-nt-pj2"/>
+                <constraint firstItem="cDR-H4-KLU" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="12" id="cZq-rm-Vfx"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <size key="customSize" width="267" height="238"/>
@@ -62,6 +56,7 @@
                 <outlet property="appTitle" destination="YCn-ON-kRP" id="hUN-0W-v36"/>
                 <outlet property="category" destination="Gyu-AX-lbK" id="VxQ-53-trS"/>
                 <outlet property="imageView" destination="6cn-eE-YtP" id="0Sz-Wk-d4C"/>
+                <outlet property="stackView" destination="cDR-H4-KLU" id="o2R-Tc-9XK"/>
             </connections>
             <point key="canvasLocation" x="84" y="-99"/>
         </collectionViewCell>

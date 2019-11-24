@@ -238,6 +238,21 @@ if (self.<#keyname#> != nil) {
 
 #pragma mark - Equality
 
+- (NSUInteger)hash {
+    
+    __block NSUInteger hash = 0;
+    
+    [self.dictionaryRepresentation enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+       
+        hash += [key hash];
+        hash += [obj hash];
+        
+    }];
+    
+    return hash;
+    
+}
+
 - (BOOL)isEqual:(id)object {
     if (object == nil) {
         return NO;
@@ -255,8 +270,7 @@ if (self.<#keyname#> != nil) {
         return NO;
     }
     
-    if ([app.developerID isEqualToString:self.developerID]
-        && [app.appID isEqualToNumber:self.appID]) {
+    if (app.hash == self.hash) {
         return YES;
     }
     

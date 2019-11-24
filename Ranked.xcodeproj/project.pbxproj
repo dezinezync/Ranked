@@ -21,7 +21,6 @@
 		F04D51DE2168A9E6008D2FC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51DD2168A9E6008D2FC8 /* main.m */; };
 		F04D51E82168A9E6008D2FC8 /* RankedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51E72168A9E6008D2FC8 /* RankedTests.m */; };
 		F04D51F92168AA90008D2FC8 /* AppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51F72168AA90008D2FC8 /* AppsController.m */; };
-		F04D51FA2168AA90008D2FC8 /* AppsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F04D51F82168AA90008D2FC8 /* AppsController.xib */; };
 		F04D51FF2168AC19008D2FC8 /* AppCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D51FD2168AC19008D2FC8 /* AppCell.m */; };
 		F04D52002168AC19008D2FC8 /* AppCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F04D51FE2168AC19008D2FC8 /* AppCell.xib */; };
 		F04D52032168AD33008D2FC8 /* AppsController+Actions.m in Sources */ = {isa = PBXBuildFile; fileRef = F04D52022168AD33008D2FC8 /* AppsController+Actions.m */; };
@@ -73,7 +72,6 @@
 		F04D51E92168A9E6008D2FC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F04D51F62168AA90008D2FC8 /* AppsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppsController.h; sourceTree = "<group>"; };
 		F04D51F72168AA90008D2FC8 /* AppsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppsController.m; sourceTree = "<group>"; };
-		F04D51F82168AA90008D2FC8 /* AppsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppsController.xib; sourceTree = "<group>"; };
 		F04D51FC2168AC19008D2FC8 /* AppCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCell.h; sourceTree = "<group>"; };
 		F04D51FD2168AC19008D2FC8 /* AppCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppCell.m; sourceTree = "<group>"; };
 		F04D51FE2168AC19008D2FC8 /* AppCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppCell.xib; sourceTree = "<group>"; };
@@ -220,7 +218,6 @@
 			children = (
 				F04D51F62168AA90008D2FC8 /* AppsController.h */,
 				F04D51F72168AA90008D2FC8 /* AppsController.m */,
-				F04D51F82168AA90008D2FC8 /* AppsController.xib */,
 				F04D52012168AD33008D2FC8 /* AppsController+Actions.h */,
 				F04D52022168AD33008D2FC8 /* AppsController+Actions.m */,
 				F04D52042168ADC3008D2FC8 /* SearchAppController.h */,
@@ -362,7 +359,6 @@
 				F02DC65D21734CA500F098C9 /* countries.json in Resources */,
 				F088F3A02169DF8300F292C0 /* Localizable.strings in Resources */,
 				F02DC65B21734AE400F098C9 /* countrycodes.js in Resources */,
-				F04D51FA2168AA90008D2FC8 /* AppsController.xib in Resources */,
 				F04D51D82168A9E6008D2FC8 /* Assets.xcassets in Resources */,
 				F04D520F2168B616008D2FC8 /* AppSearchCell.xib in Resources */,
 				F02DC671217382E700F098C9 /* RankCell.xib in Resources */,
@@ -568,6 +564,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XMJKJH96ZT;
 				INFOPLIST_FILE = "$(SRCROOT)/Ranked/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -585,6 +582,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XMJKJH96ZT;
 				INFOPLIST_FILE = "$(SRCROOT)/Ranked/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

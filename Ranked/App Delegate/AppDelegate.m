@@ -19,7 +19,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    AppsController *controller = [[AppsController alloc] initWithNibName:NSStringFromClass(AppsController.class) bundle:nil];
+    AppsController *controller = [[AppsController alloc] initWithCollectionViewLayout:AppsController.layout];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
     
     self.window.rootViewController = navController;
