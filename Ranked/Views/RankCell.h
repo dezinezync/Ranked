@@ -21,6 +21,8 @@ extern NSString *const kRankCell;
 @property (weak, nonatomic) IBOutlet UILabel *changeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rankLabel;
 
++ (void)registerOnTableView:(UITableView *)tableView;
+
 - (void)configure:(Country *)country app:(App *)app;
 
 - (void)updateRank:(NSNumber *)newRank old:(NSNumber *)oldRank;

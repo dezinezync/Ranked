@@ -12,6 +12,12 @@ NSString *const kRankCell = @"com.ranked.cell.rank";
 
 @implementation RankCell
 
++ (void)registerOnTableView:(UITableView *)tableView {
+    
+    [tableView registerNib:[UINib nibWithNibName:NSStringFromClass(RankCell.class) bundle:nil] forCellReuseIdentifier:kRankCell];
+    
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
