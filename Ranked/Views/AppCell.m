@@ -96,16 +96,17 @@ NSString *const kAppCell = @"com.ranked.cell.app";
 }
 
 - (UICollectionViewLayoutAttributes *)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
-    
+
     UICollectionViewLayoutAttributes *fitting = [super preferredLayoutAttributesFittingAttributes:layoutAttributes];
-    
+
     CGRect frame = fitting.frame;
     frame.size.height = [self.stackView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-    
+    frame.size.height += 24.f;
+
     fitting.frame = frame;
-    
+
     return fitting;
-    
+
 }
 
 @end

@@ -101,11 +101,11 @@ static void *KVO_Apps = &KVO_Apps;
 
 + (UICollectionViewCompositionalLayout *)layout {
     
-    NSCollectionLayoutSize * itemSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:0.3f] heightDimension:[NSCollectionLayoutDimension fractionalWidthDimension:1.f]];
+    NSCollectionLayoutSize * itemSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:0.3f] heightDimension:[NSCollectionLayoutDimension fractionalHeightDimension:1.f]];
     
     NSCollectionLayoutItem * item = [NSCollectionLayoutItem itemWithLayoutSize:itemSize];
     
-    NSCollectionLayoutSize * groupSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:1.f] heightDimension:[NSCollectionLayoutDimension estimatedDimension:80.f]];
+    NSCollectionLayoutSize * groupSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:1.f] heightDimension:[NSCollectionLayoutDimension estimatedDimension:160.f]];
     
     NSCollectionLayoutGroup * group = [NSCollectionLayoutGroup horizontalGroupWithLayoutSize:groupSize subitem:item count:3];
     group.interItemSpacing = [NSCollectionLayoutSpacing fixedSpacing:1.f];
