@@ -3,7 +3,9 @@
 Objective-C iPhone Application to track your app's rankings. You can track your own apps or any other apps you want. 
 
 ## Screenshots
-
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img src="https://github.com/dezinezync/Ranked/blob/dev/screenshots/1.jpeg?raw=true" width="33%" alt="App Grid" title="App Grid" />|<img src="https://github.com/dezinezync/Ranked/blob/dev/screenshots/2.jpeg?raw=true" width="33%" alt="Twitter Stats" title="Twitter Stats" />|<img src="https://github.com/dezinezync/Ranked/blob/dev/screenshots/3.jpeg?raw=true" width="33%" alt="LookUp! Stats" title="LookUp! Stats" />|
 
 ## Features
 - Search the App Store catalogue directly.  
