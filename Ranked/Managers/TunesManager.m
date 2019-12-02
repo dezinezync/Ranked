@@ -215,8 +215,12 @@ static TunesManager * sharedInstance = nil;
 
 - (NSURLSessionTask *)rankForApp:(App *)app countryCode:(NSString *)code success:(void (^)(NSNumber *))successCB error:(void (^)(NSError *))errorCB {
     
-    NSString *path = [[NSString alloc] initWithFormat:@"https://itunes.apple.com/%@/rss/topfreeapplications/limit=200/genre=%@/json", [code lowercaseString], app.genre];
-    NSLog(@"%@", path);
+    NSString *appClass = app.isPaid ? @"toppaidapplications" : @"topfreeapplications";
+    
+    NSString *path = [[NSString alloc] initWithFormat:@"https://itunes.apple.com/%@/rss/%@/limit=200/genre=%@/json", [code lowercaseString], appClass, app.genre];
+#ifdef DEBUG
+    NSLog(@"Requesting JSON at URL: %@", path);
+#endif
     NSURL *url = [NSURL URLWithString:path];
     
     NSString *appID = [app.appID stringValue];
