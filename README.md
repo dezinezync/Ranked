@@ -17,3 +17,8 @@ Objective-C iPhone Application to track your app's rankings. You can track your 
 - [ ] Check rankings in the global list by application type. 
 - [ ] Enable refetching app metadata. 
 - [ ] Reordering of apps. 
+
+## License
+Check the License File. 
+
+I request you to explore the project, learn from it, suggest improvements, adapt from it, submit new PRs but do not upload it to the App Store as your own work. 
