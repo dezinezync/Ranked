@@ -21,6 +21,8 @@ extern NSString *const kAppSearchCell;
 
 @property (weak, nonatomic) NSURLSessionTask *imageDownloadTask;
 
++ (void)registerOnTableView:(UITableView *)tableView;
+
 - (void)configure:(App *)app;
 
 @end

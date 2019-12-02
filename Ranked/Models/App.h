@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *genreName;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSURL *url;
+@property (nonatomic, assign, getter=isPaid) BOOL paid;
 
 // list of country codes for which the app tracks it's rankings.
 // this allows for different apps to have different trackings.

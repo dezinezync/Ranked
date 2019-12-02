@@ -106,6 +106,27 @@ static AppManager * sharedInstance = nil;
     
 }
 
+- (void)removeApp:(App *)app {
+    
+    if (app == nil) {
+        return;
+    }
+    
+    NSArray *apps = self.apps;
+    NSMutableArray *newList = [[NSMutableArray alloc] initWithCapacity:(apps.count - 1)];
+    
+    for (App *obj in apps) {
+        
+        if ([app isEqualToApp:obj] == NO) {
+            [newList addObject:obj];
+        }
+        
+    }
+    
+    self.apps = newList;
+    
+}
+
 #pragma mark -
 
 - (void)save {

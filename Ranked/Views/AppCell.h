@@ -21,6 +21,10 @@ extern NSString *const kAppCell;
 
 @property (weak, nonatomic) NSURLSessionTask *imageDownloadTask;
 
+@property (weak, nonatomic) IBOutlet UIStackView *stackView;
+
++ (void)registerOnCollectionView:(UICollectionView *)collectionView;
+
 - (void)configure:(App *)app;
 
 @end

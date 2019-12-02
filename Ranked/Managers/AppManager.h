@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addApp:(App * _Nonnull)app;
 
+- (void)removeApp:(App * _Nonnull)app;
+
 // Save any modifications to the disk.
 // This will fire the KVO for the app key.
 - (void)save;

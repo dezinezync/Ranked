@@ -21,6 +21,9 @@ static void *KVO_App_Countries = &KVO_App_Countries;
 }
 
 @property (nonatomic, weak) App *app;
+@property (nonatomic, strong) UITableViewDiffableDataSource *DS;
+@property (nonatomic, strong) UIView *progressView;
+@property (nonatomic, weak) UILabel *progressLabel;
 
 @end
 
@@ -43,15 +46,7 @@ static void *KVO_App_Countries = &KVO_App_Countries;
     
     self.title = self.app.name;
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl sizeToFit];
-    
-    [refreshControl addTarget:self action:@selector(refreshData:) forControlEvents:UIControlEventValueChanged];
-    
-    self.tableView.refreshControl = refreshControl;
-    
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(RankCell.class) bundle:nil] forCellReuseIdentifier:kRankCell];
-    self.tableView.tableFooterView = [UIView new];
+    [self setupTableView];
     
     UIBarButtonItem *countries = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(didTapCountries)];
     countries.accessibilityValue = NSLocalizedString(@"controller.app.edit.title", @"a11y title for the Edit button");
@@ -60,6 +55,9 @@ static void *KVO_App_Countries = &KVO_App_Countries;
     self.navigationItem.rightBarButtonItem = countries;
     
     [self.app addObserver:self forKeyPath:propSel(countries) options:NSKeyValueObservingOptionNew context:KVO_App_Countries];
+    
+    [self.view addSubview:self.progressView];
+    [self.view bringSubviewToFront:self.progressView];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -75,6 +73,8 @@ static void *KVO_App_Countries = &KVO_App_Countries;
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    
+    [self setProgressLabelText:@"Loading Stats"];
     
     if (self->_hasLoadedOnce == NO) {
         self->_hasLoadedOnce = YES;
@@ -97,27 +97,110 @@ static void *KVO_App_Countries = &KVO_App_Countries;
     
 }
 
-#pragma mark - Table view data source
+#pragma mark - Accessors
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.app.countries.count;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    RankCell *cell = [tableView dequeueReusableCellWithIdentifier:kRankCell forIndexPath:indexPath];
+- (void)setProgressLabelText:(NSString *)text {
     
-    // Configure the cell...
-    Country *country = [[self.app.trackedCountries allObjects] objectAtIndex:indexPath.row];
-    if (country) {
-        [cell configure:country app:self.app];
+    if (NSThread.isMainThread == NO) {
+        [self performSelectorOnMainThread:@selector(setProgressLabelText:) withObject:text waitUntilDone:NO];
+        return;
     }
     
-    return cell;
+    self.progressLabel.text = text;
+    [self.progressLabel sizeToFit];
+    [self.progressLabel setNeedsLayout];
+    
+}
+
+- (UIView *)progressView {
+    
+    if (_progressView == nil) {
+        
+        CGRect frame = CGRectInset(CGRectMake(0, 0, self.tableView.bounds.size.width, 58.f), 12.f, 0.f);
+        UIView *view = [[UIView alloc] initWithFrame:frame];
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        view.backgroundColor = UIColor.systemGray6Color;
+        view.layer.cornerRadius = 12.f;
+        
+        UILabel *label = [[UILabel alloc] init];
+        label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        label.numberOfLines = 0;
+        label.textColor = UIColor.tertiaryLabelColor;
+        label.translatesAutoresizingMaskIntoConstraints = NO;
+        label.textAlignment = NSTextAlignmentCenter;
+        
+        [view addSubview:label];
+        
+        self.progressLabel = label;
+        
+        [NSLayoutConstraint activateConstraints:@[
+            [label.widthAnchor constraintEqualToAnchor:view.widthAnchor multiplier:1.f],
+            [label.leadingAnchor constraintEqualToAnchor:view.leadingAnchor],
+            [label.centerYAnchor constraintEqualToAnchor:view.centerYAnchor]
+        ]];
+        
+        [self.view addSubview:view];
+        
+        /*
+        * We use a multiplier of 2 for the height anchor instead of using 1.f and a constant.
+        * When doing this, the view *hides* itself when the label's text is nil or empty.
+        */
+        [NSLayoutConstraint activateConstraints:@[
+            [self.view.readableContentGuide.leadingAnchor constraintEqualToAnchor:view.leadingAnchor],
+            [self.view.readableContentGuide.trailingAnchor constraintEqualToAnchor:view.trailingAnchor],
+            [self.view.readableContentGuide.bottomAnchor constraintEqualToAnchor:view.bottomAnchor],
+            [view.heightAnchor constraintEqualToAnchor:label.heightAnchor multiplier:2.f],
+        ]];
+        
+        _progressView = view;
+        
+    }
+    
+    return _progressView;
+    
+}
+
+#pragma mark - Setups
+
+- (void)setupTableView {
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl sizeToFit];
+    
+    [refreshControl addTarget:self action:@selector(refreshData:) forControlEvents:UIControlEventValueChanged];
+    
+    self.tableView.refreshControl = refreshControl;
+    
+    [RankCell registerOnTableView:self.tableView];
+    self.tableView.tableFooterView = [UIView new];
+    
+    self.DS = [[UITableViewDiffableDataSource alloc] initWithTableView:self.tableView cellProvider:^UITableViewCell * _Nullable(UITableView * _Nonnull tableView, NSIndexPath * _Nonnull indexPath, NSString *_Nonnull countryIdentifier) {
+        
+        RankCell *cell = [tableView dequeueReusableCellWithIdentifier:kRankCell forIndexPath:indexPath];
+        
+         Country *country = [[self.app.trackedCountries allObjects] objectAtIndex:indexPath.row];
+        
+        // Configure the cell...
+        if (country) {
+            [cell configure:country app:self.app];
+        }
+        
+        return cell;
+        
+    }];
+    
+    [self setupData];
+    
+}
+
+- (void)setupData {
+    
+    NSDiffableDataSourceSnapshot *snapshot = [NSDiffableDataSourceSnapshot new];
+    [snapshot appendSectionsWithIdentifiers:@[@0]];
+    [snapshot appendItemsWithIdentifiers:self.app.countries.objectEnumerator.allObjects];
+    
+    [self.DS applySnapshot:snapshot animatingDifferences:YES];
+    
 }
 
 #pragma mark - Actions
@@ -148,6 +231,11 @@ static void *KVO_App_Countries = &KVO_App_Countries;
 }
 
 - (void)getData {
+    
+    __block NSInteger count = 1;
+    NSNumber * totalCountries = @(self.app.countries.count);
+    
+    [self setProgressLabelText:[NSString stringWithFormat:@"Loading %@ of %@", @(count), totalCountries]];
  
     [TunesManager.sharedManager ranksForApp:self.app progress:^(NSString * _Nonnull shortCode, NSNumber * _Nonnull rank) {
         
@@ -167,12 +255,38 @@ static void *KVO_App_Countries = &KVO_App_Countries;
         
         [cell updateRank:rank old:old];
         
+        if (count == totalCountries.integerValue) {
+            // hide the counter
+            [self setProgressLabelText:nil];
+        }
+        else {
+            // update the counter
+            [self setProgressLabelText:[NSString stringWithFormat:@"Loading %@ of %@", @(count), totalCountries]];
+        }
+        
+        count++;
+        
     } success:^(NSDictionary<NSString *,NSNumber *> * _Nonnull responseObjects) {
         
         // Once all reports are available, this block is called
         
         // this ensures that our visible cells get updated if the result was updated when the row wasn't visible.
-        [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
+        NSDiffableDataSourceSnapshot *snapshot = self.DS.snapshot;
+        
+        NSMutableArray *reloadIdentifiers = [NSMutableArray arrayWithCapacity:self.tableView.indexPathsForVisibleRows.count];
+        
+        for (NSIndexPath *indexPath in self.tableView.indexPathsForVisibleRows) {
+            id object = [self.DS itemIdentifierForIndexPath:indexPath];
+            
+            if (object) {
+                [reloadIdentifiers addObject:object];
+            }
+            
+        }
+        
+        [snapshot reloadItemsWithIdentifiers:reloadIdentifiers];
+        
+        [self.DS applySnapshot:snapshot animatingDifferences:YES];
         
         [AppManager.sharedManager save];
         
@@ -194,7 +308,7 @@ static void *KVO_App_Countries = &KVO_App_Countries;
         && object == self.app
         && context == KVO_App_Countries) {
         
-        [self.tableView reloadData];
+        [self setupData];
         [self getData];
         
     }

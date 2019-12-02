@@ -40,6 +40,18 @@
     return self;
 }
 
+- (NSString *)description {
+    
+    NSString *desc = [super description];
+    
+#ifdef DEBUG
+    desc = [NSString stringWithFormat:@"%@ : %@", desc, self.dictionaryRepresentation];
+#endif
+    
+    return desc;
+    
+}
+
 - (void)setup {
     self.artwork = @{};
     self.countries = [NSOrderedSet orderedSetWithArray:@[@"AU", @"AT", @"CA", @"CN", @"FR", @"DE", @"GB", @"HK", @"IN", @"IT", @"JP", @"MX", @"NL", @"SG", @"US"]];
@@ -67,6 +79,7 @@
     [aCoder encodeObject:self.url forKey:propSel(url)];
     [aCoder encodeObject:self.countries forKey:propSel(countries)];
     [aCoder encodeObject:self.rankings forKey:propSel(rankings)];
+    [aCoder encodeBool:self.paid forKey:@"paid"];
     
 }
 
@@ -83,6 +96,7 @@
         self.url = [aDecoder decodeObjectForKey:propSel(url)];
         self.countries = [aDecoder decodeObjectForKey:propSel(countries)];
         self.rankings = [aDecoder decodeObjectForKey:propSel(rankings)];
+        self.paid = [aDecoder decodeBoolForKey:@"paid"];
     }
     
     return self;
@@ -154,6 +168,11 @@
         }
         
         self.artwork = dict.copy;
+        
+    }
+    else if ([key isEqualToString:@"price"]) {
+        
+        self.paid = ([value floatValue] > 0.f);
         
     }
     else {
@@ -232,11 +251,28 @@ if (self.<#keyname#> != nil) {
         [dict setObject:self.rankings forKey:propSel(rankings)];
     }
     
+    [dict setObject:@(self.isPaid) forKey:@"paid"];
+    
     return dict.copy;
     
 }
 
 #pragma mark - Equality
+
+- (NSUInteger)hash {
+    
+    __block NSUInteger hash = 0;
+    
+    [self.dictionaryRepresentation enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+       
+        hash += [key hash];
+        hash += [obj hash];
+        
+    }];
+    
+    return hash;
+    
+}
 
 - (BOOL)isEqual:(id)object {
     if (object == nil) {
@@ -255,8 +291,7 @@ if (self.<#keyname#> != nil) {
         return NO;
     }
     
-    if ([app.developerID isEqualToString:self.developerID]
-        && [app.appID isEqualToNumber:self.appID]) {
+    if (app.hash == self.hash) {
         return YES;
     }
     

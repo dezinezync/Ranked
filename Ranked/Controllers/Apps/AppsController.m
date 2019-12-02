@@ -18,6 +18,7 @@ static void *KVO_Apps = &KVO_Apps;
 @interface AppsController ()
 
 @property (nonatomic, weak) NSArray <App *> *apps;
+@property (nonatomic, strong) UICollectionViewDiffableDataSource *DS;
 
 @end
 
@@ -26,17 +27,16 @@ static void *KVO_Apps = &KVO_Apps;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.navigationBar.prefersLargeTitles = YES;
+    
     self.title = NSLocalizedString(@"controller.apps.title", nil);
     self.apps = [AppManager sharedManager].apps;
     
     // Uncomment the following line to preserve selection between presentations
      self.clearsSelectionOnViewWillAppear = YES;
     
-    // Register cell classes
-    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass(AppCell.class) bundle:nil] forCellWithReuseIdentifier:kAppCell];
-    
     // Do any additional setup after loading the view.
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = [UIColor systemGroupedBackgroundColor];
     
     UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTapAdd)];
     add.accessibilityValue = NSLocalizedString(@"controller.apps.new.title", @"a11y title for the Add button");
@@ -44,34 +44,43 @@ static void *KVO_Apps = &KVO_Apps;
     
     self.navigationItem.rightBarButtonItem = add;
     
-    [self setupLayout];
+    [self setupCollectionView];
+    
+}
+
+#pragma mark - Setups
+
+- (void)setupCollectionView {
+    
+    self.DS = [[UICollectionViewDiffableDataSource alloc] initWithCollectionView:self.collectionView cellProvider:^UICollectionViewCell * _Nullable(UICollectionView * _Nonnull collectionView, NSIndexPath * _Nonnull indexPath, App * _Nonnull app) {
+       
+        AppCell *cell = (AppCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kAppCell forIndexPath:indexPath];
+        
+        // Configure the cell
+        if (app != nil) {
+            [cell configure:app];
+        }
+        
+        return cell;
+        
+    }];
+    
+    [AppCell registerOnCollectionView:self.collectionView];
     
     [[AppManager sharedManager] addObserver:self forKeyPath:propSel(apps) options:NSKeyValueObservingOptionNew context:KVO_Apps];
     
+    [self setupData];
+    
 }
 
-#pragma mark - <UICollectionViewDataSource>
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.apps.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    AppCell *cell = (AppCell *)[collectionView dequeueReusableCellWithReuseIdentifier:kAppCell forIndexPath:indexPath];
+- (void)setupData {
     
-    // Configure the cell
-    App *app = [self.apps objectAtIndex:indexPath.item];
+    NSDiffableDataSourceSnapshot *snapshot = [NSDiffableDataSourceSnapshot new];
+    [snapshot appendSectionsWithIdentifiers:@[@0]];
+    [snapshot appendItemsWithIdentifiers:self.apps];
     
-    if (app != nil) {
-        [cell configure:app];
-    }
+    [self.DS applySnapshot:snapshot animatingDifferences:YES];
     
-    return cell;
 }
 
 #pragma mark - <UICollectionViewDelegate>
@@ -88,21 +97,48 @@ static void *KVO_Apps = &KVO_Apps;
     
 }
 
-#pragma mark -
+- (UIContextMenuConfiguration *)collectionView:(UICollectionView *)collectionView contextMenuConfigurationForItemAtIndexPath:(NSIndexPath *)indexPath point:(CGPoint)point {
+    
+    UIContextMenuConfiguration *config = [UIContextMenuConfiguration configurationWithIdentifier:@"cell.action" previewProvider:nil actionProvider:^UIMenu * _Nullable(NSArray<UIMenuElement *> * _Nonnull suggestedActions) {
+       
+        UIAction * delete = [UIAction actionWithTitle:@"Delete" image:[UIImage systemImageNamed:@"trash"] identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
+            
+            App *app = [self.DS itemIdentifierForIndexPath:indexPath];
+            
+            [AppManager.sharedManager removeApp:app];
+            
+        }];
+        
+        delete.attributes = UIMenuElementAttributesDestructive;
+        
+        return [UIMenu menuWithTitle:@"App Actions" children:@[delete]];
+        
+    }];
+    
+    return config;
+    
+}
 
-- (void)setupLayout {
- 
-    // this logic is only applicable for iPhones at the moment.
-#warning TODO: Implement Size Classes based logic for setting up the layout
+#pragma mark - Accessors
+
++ (UICollectionViewCompositionalLayout *)layout {
     
-    [self.collectionView layoutIfNeeded];
+    NSCollectionLayoutSize * itemSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:0.3f] heightDimension:[NSCollectionLayoutDimension fractionalHeightDimension:1.f]];
     
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)[self.collectionView collectionViewLayout];
+    NSCollectionLayoutItem * item = [NSCollectionLayoutItem itemWithLayoutSize:itemSize];
     
-    CGFloat width = MIN(self.collectionView.bounds.size.width, self.collectionView.contentSize.width);
-    CGFloat columnWidth = floor((width - 2.f) / 3.f);
+    NSCollectionLayoutSize * groupSize = [NSCollectionLayoutSize sizeWithWidthDimension:[NSCollectionLayoutDimension fractionalWidthDimension:1.f] heightDimension:[NSCollectionLayoutDimension estimatedDimension:160.f]];
     
-    layout.itemSize = CGSizeMake(columnWidth, columnWidth + 24.f);
+    NSCollectionLayoutGroup * group = [NSCollectionLayoutGroup horizontalGroupWithLayoutSize:groupSize subitem:item count:3];
+    group.interItemSpacing = [NSCollectionLayoutSpacing fixedSpacing:1.f];
+    
+    NSCollectionLayoutSection * section = [NSCollectionLayoutSection sectionWithGroup:group];
+    section.interGroupSpacing = 1.f;
+    section.contentInsets = NSDirectionalEdgeInsetsMake(12.f, 0.f, 12.f, 0.f);
+    
+    UICollectionViewCompositionalLayout * layout = [[UICollectionViewCompositionalLayout alloc] initWithSection:section];
+    
+    return layout;
     
 }
 
@@ -114,7 +150,7 @@ static void *KVO_Apps = &KVO_Apps;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.apps = [AppManager sharedManager].apps;
-            [self.collectionView reloadData];
+            [self setupData];
         });
         
     }
