@@ -14,9 +14,9 @@ struct RankedApp: App {
       NavigationStack {
         AppsGridView()
           .navigationTitle("Ranked")
-          .environment(\.apps, Apps.shared)
-          .environment(\.tunesManager, TunesManager.shared)
       }
     }
+    .environment(\.apps, Apps.shared)
+    .environment(\.tunesManager, TunesManager.shared)
   }
 }

@@ -12,39 +12,63 @@ struct AppsGridView: View {
   @Environment(\.tunesManager) private var tunesManager
   
   var body: some View {
-    ScrollView(content: {
-      GeometryReader { reader in
-        let columns = columnsForGrid(for: reader)
+    if apps.apps.isEmpty {
+      ContentUnavailableView {
+          Label("No Apps", systemImage: "app.grid")
+      } description: {
+          Text("You have not added any apps yet.")
+      }
+      .toolbar {
+        ToolbarSpacer(.flexible)
         
-        LazyVGrid(columns: columns, spacing: 8) {
-          ForEach(apps.apps) { app in
-            NavigationLink {
-              AppDetailView(app: app)
-            } label: {
-              AppGridView(app: app)
+        ToolbarItem(placement: .bottomBar) {
+          NavigationLink {
+            SearchAppView { app in
+              apps.add(app: app)
             }
-            .contextMenu {
-              Button("Delete", systemImage: "trash", role: .destructive) {
-                // @TODO: Confirm
-                apps.remove(app: app)
-              }
+          } label: {
+            Button("New App", systemImage: "plus") {
+              
             }
           }
         }
       }
-    })
-    .scenePadding(.horizontal)
-    .toolbar {
-      ToolbarSpacer(.flexible)
-      
-      ToolbarItem(placement: .bottomBar) {
-        NavigationLink {
-          SearchAppView { app in
-            apps.add(app: app)
+    }
+    else {
+      ScrollView(content: {
+        GeometryReader { reader in
+          let columns = columnsForGrid(for: reader)
+          
+          LazyVGrid(columns: columns, spacing: 8) {
+            ForEach(apps.apps) { app in
+              NavigationLink {
+                AppDetailView(app: app)
+              } label: {
+                AppGridView(app: app)
+              }
+              .contextMenu {
+                Button("Delete", systemImage: "trash", role: .destructive) {
+                  // @TODO: Confirm
+                  apps.remove(app: app)
+                }
+              }
+            }
           }
-        } label: {
-          Button("New App", systemImage: "plus") {
-            
+        }
+      })
+      .scenePadding(.horizontal)
+      .toolbar {
+        ToolbarSpacer(.flexible)
+        
+        ToolbarItem(placement: .bottomBar) {
+          NavigationLink {
+            SearchAppView { app in
+              apps.add(app: app)
+            }
+          } label: {
+            Button("New App", systemImage: "plus") {
+              
+            }
           }
         }
       }

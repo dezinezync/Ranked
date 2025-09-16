@@ -87,6 +87,8 @@ private struct CountryRow: View {
   }
 }
 
+#if DEBUG
 #Preview {
   AppCountryPickerView(app: DEBUG_APP)
 }
+#endif
