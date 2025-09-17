@@ -142,18 +142,20 @@ private struct AppCountryRow: View {
             Text("")
           }
           else if change > 0 {
+            // Drop in rank
+            Text("\(change)")
+            .font(.body)
+            .fontDesign(.monospaced)
+            .multilineTextAlignment(.trailing)
+            .foregroundStyle(.red) // @TODO: zh-CN flip
+          }
+          else {
+            // Gain in rank
             Text("+\(change)")
               .font(.body)
               .fontDesign(.monospaced)
               .multilineTextAlignment(.trailing)
               .foregroundStyle(.green) // @TODO: zh-CN flip
-          }
-          else {
-            Text("\(change)")
-              .font(.body)
-              .fontDesign(.monospaced)
-              .multilineTextAlignment(.trailing)
-              .foregroundStyle(.red) // @TODO: zh-CN flip
           }
         }
       }
