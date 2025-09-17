@@ -143,7 +143,7 @@ private struct AppCountryRow: View {
           }
           else if change > 0 {
             // Drop in rank
-            Text("\(change)")
+            Text("-\(change)")
             .font(.body)
             .fontDesign(.monospaced)
             .multilineTextAlignment(.trailing)
@@ -151,7 +151,7 @@ private struct AppCountryRow: View {
           }
           else {
             // Gain in rank
-            Text("+\(change)")
+            Text("+\(abs(change))")
               .font(.body)
               .fontDesign(.monospaced)
               .multilineTextAlignment(.trailing)
